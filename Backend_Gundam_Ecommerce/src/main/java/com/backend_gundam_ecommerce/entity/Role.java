@@ -26,7 +26,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "INVALID_NAME")
     private String name;
 
     @OneToMany(mappedBy = "role")

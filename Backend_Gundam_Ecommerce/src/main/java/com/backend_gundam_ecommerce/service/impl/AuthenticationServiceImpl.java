@@ -88,6 +88,7 @@ public class AuthenticationServiceImpl {
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .claim("user_id", user.getId())
+                .claim("role",user.getRole().getName())
                 .build();
 
         Payload payload = new Payload(claimsSet.toJSONObject());

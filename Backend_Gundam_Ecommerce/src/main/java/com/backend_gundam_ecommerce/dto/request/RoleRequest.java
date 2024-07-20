@@ -10,11 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthenticationRequest {
+public class RoleRequest {
     @NotBlank(message = "INVALID")
-    private String username;
-
-    @NotBlank(message = "INVALID")
-    private String password;
-
+    private String name;
 }

@@ -14,7 +14,9 @@ public enum ErrorCode {
     INVALID_KEY(400,"invalid key",HttpStatus.BAD_REQUEST),
     USER_EXIST(400, "user existed", HttpStatus.BAD_REQUEST),
     UNAUTHENTICATED(400,"unauthenticated", HttpStatus.BAD_REQUEST),
-    TOKEN_EXCEPTION(400,"token exception", HttpStatus.BAD_REQUEST)
+    TOKEN_EXCEPTION(400,"token exception", HttpStatus.BAD_REQUEST),
+    RUNTIME_EXCEPTION(400,"runtime exception", HttpStatus.BAD_REQUEST),
+    SQL_EXCEPTION(400,"invalid sql exception", HttpStatus.BAD_REQUEST)
     ;
 
     private final int code;

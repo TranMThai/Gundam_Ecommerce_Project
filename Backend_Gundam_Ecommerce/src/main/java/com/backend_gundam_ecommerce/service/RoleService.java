@@ -1,5 +1,7 @@
 package com.backend_gundam_ecommerce.service;
 
+import com.backend_gundam_ecommerce.dto.request.RoleRequest;
+import com.backend_gundam_ecommerce.dto.response.RoleResponse;
 import com.backend_gundam_ecommerce.entity.Role;
 
 import java.util.List;
@@ -7,11 +9,11 @@ import java.util.Optional;
 
 public interface RoleService {
 
-    List<Role> findAll();
+    List<RoleResponse> findAll();
 
-    Optional<Role> findById(Integer id);
+    RoleResponse findById(Integer id);
 
-    Role save(Role role);
+    RoleResponse save(RoleRequest request);
 
     void deleteById(Integer id);
 

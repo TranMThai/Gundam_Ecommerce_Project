@@ -6,18 +6,20 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-//    @ExceptionHandler(value = RuntimeException.class)
-//    public ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException e) {
-//        ErrorCode errorCode = ErrorCode.RUNTIME_EXCEPTION;
-//        return ResponseEntity.badRequest()
-//                .body(ApiResponse.builder()
-//                        .code(errorCode.getCode())
-//                        .message(errorCode.getMessage())
-//                        .build());
-//    }
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException e) {
+        ErrorCode errorCode = ErrorCode.RUNTIME_EXCEPTION;
+        return ResponseEntity.badRequest()
+                .body(ApiResponse.builder()
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
+                        .build());
+    }
 
     @ExceptionHandler(value = AppException.class)
     public ResponseEntity<ApiResponse> handlingAppException(AppException e) {
@@ -25,6 +27,16 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.builder()
                         .code(e.getErrorCode().getCode())
                         .message(e.getErrorCode().getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(value = SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<ApiResponse> handlingSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException e) {
+        ErrorCode errorCode = ErrorCode.SQL_EXCEPTION;
+        return ResponseEntity.badRequest()
+                .body(ApiResponse.builder()
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
                         .build());
     }
 

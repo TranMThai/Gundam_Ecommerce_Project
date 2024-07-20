@@ -1,15 +1,13 @@
 package com.backend_gundam_ecommerce.controller;
 
+import com.backend_gundam_ecommerce.dto.request.RoleRequest;
 import com.backend_gundam_ecommerce.dto.response.ApiResponse;
 import com.backend_gundam_ecommerce.entity.Role;
-import com.backend_gundam_ecommerce.exception.AppException;
-import com.backend_gundam_ecommerce.exception.ErrorCode;
 import com.backend_gundam_ecommerce.service.RoleService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,36 +35,22 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    ApiResponse<?> findById(@PathVariable(name = "id") Integer id) {
+    ApiResponse<?> findById(@PathVariable(name = "id", required = true) Integer id) {
         return ApiResponse.builder()
-                .result(roleService.findById(id)
-                        .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)))
+                .result(roleService.findById(id))
                 .build();
     }
 
     @PostMapping("")
-    ApiResponse<?> create(@Valid @RequestBody Role role) {
+    ApiResponse<?> create(@Valid @RequestBody RoleRequest request) {
         return ApiResponse.builder()
-                .result(roleService.save(role))
+                .result(roleService.save(request))
                 .build();
     }
 
-    @PutMapping("/{id}")
-    ApiResponse<?> update(@RequestBody Role role,
-                          @PathVariable(name = "id") Integer id) {
-        if (id != null) {
-            return ApiResponse.builder()
-                    .result(roleService.save(role))
-                    .build();
-        }
-        return null;
-    }
-
     @DeleteMapping("/{id}")
-    ApiResponse<Void> deleteById(@PathVariable(name = "id") Integer id) {
-        if (id != null) {
-            roleService.deleteById(id);
-        }
+    ApiResponse<Void> deleteById(@PathVariable(name = "id", required = true) Integer id) {
+        roleService.deleteById(id);
         return ApiResponse.<Void>builder().build();
     }
 
