@@ -1,19 +1,18 @@
-package com.backend_gundam_ecommerce.service.impl;
+package com.backend_gundam_ecommerce.security.service;
 
-import com.backend_gundam_ecommerce.dto.request.AuthenticationRequest;
-import com.backend_gundam_ecommerce.dto.request.IntrospectRequest;
-import com.backend_gundam_ecommerce.dto.response.AuthenticationResponse;
-import com.backend_gundam_ecommerce.dto.response.IntrospectResponse;
+import com.backend_gundam_ecommerce.common.dto.request.AuthenticationRequest;
+import com.backend_gundam_ecommerce.security.dto.request.IntrospectRequest;
+import com.backend_gundam_ecommerce.security.dto.response.AuthenticationResponse;
+import com.backend_gundam_ecommerce.security.dto.response.IntrospectResponse;
 import com.backend_gundam_ecommerce.entity.User;
-import com.backend_gundam_ecommerce.exception.AppException;
-import com.backend_gundam_ecommerce.exception.ErrorCode;
+import com.backend_gundam_ecommerce.common.exception.AppException;
+import com.backend_gundam_ecommerce.common.exception.ErrorCode;
 import com.backend_gundam_ecommerce.repository.UserRepository;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSObject;
 import com.nimbusds.jose.JWSVerifier;
-import com.nimbusds.jose.KeyLengthException;
 import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -35,7 +34,7 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class AuthenticationServiceImpl {
+public class AuthenticationService {
 
     @NonFinal
     @Value("${jwt.SIGNER_KEY}")
@@ -45,7 +44,7 @@ public class AuthenticationServiceImpl {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
-        User user = userRepository.findByUsername("Trần Minh Thái")
+        User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
 
         boolean isAuth = passwordEncoder.matches(request.getPassword(), user.getPassword());

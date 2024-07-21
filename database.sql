@@ -3,18 +3,18 @@ USE DATABASE_GUNDAM_ECOMMERCE;
 
 CREATE TABLE Role (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(10) NOT NULL
+    name VARCHAR(10) NOT NULL UNIQUE
 );
 
 CREATE TABLE Category (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    code VARCHAR(10) NOT NULL,
-    name VARCHAR(50) NOT NULL
+    code VARCHAR(10) NOT NULL UNIQUE,
+    name VARCHAR(50) NOT NULL UNIQUE 
 );
 
 CREATE TABLE Brand (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL
+    name VARCHAR(50) NOT NULL UNIQUE 
 );
 
 CREATE TABLE Product (
@@ -38,7 +38,7 @@ CREATE TABLE Image (
 
 CREATE TABLE User (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
     password TEXT NOT NULL,
     first_name NVARCHAR(20),
     last_name NVARCHAR(20),
@@ -61,8 +61,8 @@ CREATE TABLE Bill (
 
 CREATE TABLE BillDetail (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    id_product INT,
-    id_bill INT,
+    id_product INT NOT NULL,
+    id_bill INT NOT NULL,
     quantity INT NOT NULL,
     FOREIGN KEY (id_product) REFERENCES Product(id),
     FOREIGN KEY (id_bill) REFERENCES Bill(id)
@@ -70,8 +70,8 @@ CREATE TABLE BillDetail (
 
 CREATE TABLE Cart (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    id_user INT,
-    id_product INT,
+    id_user INT NOT NULL,
+    id_product INT NOT NULL,
     quantity INT NOT NULL,
     FOREIGN KEY (id_user) REFERENCES User(id),
     FOREIGN KEY (id_product) REFERENCES Product(id)
@@ -80,7 +80,7 @@ CREATE TABLE Cart (
 INSERT INTO Role
 VALUES
 (NULL,'ADMIN'),
-(NULL,'CLIENT');
+(NULL,'USER');
 
 INSERT INTO Category
 VALUES 

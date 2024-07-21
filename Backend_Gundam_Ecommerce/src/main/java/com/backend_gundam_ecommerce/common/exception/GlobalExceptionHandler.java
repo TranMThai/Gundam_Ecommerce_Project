@@ -1,6 +1,6 @@
-package com.backend_gundam_ecommerce.exception;
+package com.backend_gundam_ecommerce.common.exception;
 
-import com.backend_gundam_ecommerce.dto.response.ApiResponse;
+import com.backend_gundam_ecommerce.common.dto.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

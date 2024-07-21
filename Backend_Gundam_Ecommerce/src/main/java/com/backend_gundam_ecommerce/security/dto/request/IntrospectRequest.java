@@ -1,4 +1,4 @@
-package com.backend_gundam_ecommerce.dto.response;
+package com.backend_gundam_ecommerce.security.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthenticationResponse {
+public class IntrospectRequest {
     private String token;
 }

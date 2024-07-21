@@ -1,4 +1,4 @@
-package com.backend_gundam_ecommerce.dto.response;
+package com.backend_gundam_ecommerce.common.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

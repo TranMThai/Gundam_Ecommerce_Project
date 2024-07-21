@@ -1,4 +1,4 @@
-package com.backend_gundam_ecommerce.dto.request;
+package com.backend_gundam_ecommerce.common.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

@@ -1,10 +1,10 @@
 package com.backend_gundam_ecommerce.service.impl;
 
-import com.backend_gundam_ecommerce.dto.request.RoleRequest;
-import com.backend_gundam_ecommerce.dto.response.RoleResponse;
+import com.backend_gundam_ecommerce.common.dto.request.RoleRequest;
+import com.backend_gundam_ecommerce.common.dto.response.RoleResponse;
 import com.backend_gundam_ecommerce.entity.Role;
-import com.backend_gundam_ecommerce.exception.AppException;
-import com.backend_gundam_ecommerce.exception.ErrorCode;
+import com.backend_gundam_ecommerce.common.exception.AppException;
+import com.backend_gundam_ecommerce.common.exception.ErrorCode;
 import com.backend_gundam_ecommerce.mapper.RoleMapper;
 import com.backend_gundam_ecommerce.repository.RoleRepository;
 import com.backend_gundam_ecommerce.service.RoleService;
@@ -14,7 +14,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

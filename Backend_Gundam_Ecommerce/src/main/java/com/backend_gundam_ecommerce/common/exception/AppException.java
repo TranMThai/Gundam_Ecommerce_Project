@@ -1,4 +1,4 @@
-package com.backend_gundam_ecommerce.exception;
+package com.backend_gundam_ecommerce.common.exception;
 
 import lombok.Data;
 import lombok.Getter;

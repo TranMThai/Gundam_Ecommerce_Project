@@ -1,8 +1,7 @@
 package com.backend_gundam_ecommerce.controller;
 
-import com.backend_gundam_ecommerce.dto.request.RoleRequest;
-import com.backend_gundam_ecommerce.dto.response.ApiResponse;
-import com.backend_gundam_ecommerce.entity.Role;
+import com.backend_gundam_ecommerce.common.dto.request.RoleRequest;
+import com.backend_gundam_ecommerce.common.dto.response.ApiResponse;
 import com.backend_gundam_ecommerce.service.RoleService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

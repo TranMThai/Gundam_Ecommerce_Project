@@ -1,7 +1,7 @@
 package com.backend_gundam_ecommerce.service;
 
-import com.backend_gundam_ecommerce.dto.request.UserRequest;
-import com.backend_gundam_ecommerce.dto.response.UserResponse;
+import com.backend_gundam_ecommerce.common.dto.request.UserCreateRequest;
+import com.backend_gundam_ecommerce.common.dto.response.UserResponse;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public interface UserService {
 
     UserResponse findById(Integer id);
 
-    UserResponse create(UserRequest dto);
+    UserResponse create(UserCreateRequest dto);
 
     void deleteById(Integer id);
 

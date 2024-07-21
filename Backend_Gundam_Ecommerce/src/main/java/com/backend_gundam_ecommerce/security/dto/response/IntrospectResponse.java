@@ -1,4 +1,4 @@
-package com.backend_gundam_ecommerce.dto.response;
+package com.backend_gundam_ecommerce.security.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleResponse {
-
-    private int id;
-
-    private String name;
-
+public class IntrospectResponse {
+    private boolean valid;
 }

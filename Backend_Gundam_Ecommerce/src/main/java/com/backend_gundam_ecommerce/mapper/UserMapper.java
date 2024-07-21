@@ -1,7 +1,7 @@
 package com.backend_gundam_ecommerce.mapper;
 
-import com.backend_gundam_ecommerce.dto.request.UserRequest;
-import com.backend_gundam_ecommerce.dto.response.UserResponse;
+import com.backend_gundam_ecommerce.common.dto.request.UserCreateRequest;
+import com.backend_gundam_ecommerce.common.dto.response.UserResponse;
 import com.backend_gundam_ecommerce.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 public interface UserMapper {
 
     @Mapping(source = "idRole", target = "role.id")
-    User toEntity(UserRequest dto);
+    User toEntity(UserCreateRequest dto);
 
     @Mapping(source = "role.name", target = "role")
     UserResponse toDto(User user);

@@ -1,8 +1,11 @@
-package com.backend_gundam_ecommerce.security;
+package com.backend_gundam_ecommerce.security.config;
 
+import com.backend_gundam_ecommerce.security.constants.EndPoints;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -23,16 +26,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(request ->
-                request.requestMatchers(EndPoints.PUBLIC_ENDPOINTS).permitAll()
+                request.requestMatchers(HttpMethod.POST, EndPoints.PUBLIC_POST_ENDPOINTS).permitAll()
                         .anyRequest().authenticated()
         );
-
         http.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer ->
                         jwtConfigurer.decoder(jwtDecoder())
                 )
         );
-
         http.csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }

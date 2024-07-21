@@ -1,7 +1,6 @@
-package com.backend_gundam_ecommerce.dto.response;
+package com.backend_gundam_ecommerce.common.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,8 +13,11 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserResponse {
+public class UserCreateRequest {
+
+    private String username;
+
+    private String password;
 
     @JsonProperty("first_name")
     private String firstName;
@@ -30,8 +32,10 @@ public class UserResponse {
 
     private String email;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate birth;
 
-    private String role;
+    @JsonProperty("id_role")
+    private Integer idRole;
 
 }

@@ -1,7 +1,7 @@
 package com.backend_gundam_ecommerce.controller;
 
-import com.backend_gundam_ecommerce.dto.request.UserRequest;
-import com.backend_gundam_ecommerce.dto.response.ApiResponse;
+import com.backend_gundam_ecommerce.common.dto.request.UserCreateRequest;
+import com.backend_gundam_ecommerce.common.dto.response.ApiResponse;
 import com.backend_gundam_ecommerce.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -41,14 +41,14 @@ public class UserController {
     }
 
     @PostMapping("")
-    public ApiResponse<?> create(@RequestBody UserRequest userRequest) {
+    public ApiResponse<?> create(@RequestBody UserCreateRequest userRequest) {
         return ApiResponse.builder()
                 .result(userService.create(userRequest))
                 .build();
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<?> update(@RequestBody UserRequest userRequest,
+    public ApiResponse<?> update(@RequestBody UserCreateRequest userRequest,
                                  @PathVariable(name = "id", required = true) Integer id) {
         return ApiResponse.builder()
                 .result(userService.create(userRequest))
