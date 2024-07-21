@@ -1,5 +1,6 @@
 package com.backend_gundam_ecommerce.security.config;
 
+import com.backend_gundam_ecommerce.common.enums.Roles;
 import com.backend_gundam_ecommerce.security.constants.EndPoints;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +28,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(request ->
                 request.requestMatchers(HttpMethod.POST, EndPoints.PUBLIC_POST_ENDPOINTS).permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().hasAnyAuthority("SCOPE_"+Roles.ADMIN.name())
         );
         http.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer ->

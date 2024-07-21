@@ -1,6 +1,6 @@
 package com.backend_gundam_ecommerce.common.enums;
 
-public enum Role {
+public enum Roles {
     ADMIN,
     USER;
 }
