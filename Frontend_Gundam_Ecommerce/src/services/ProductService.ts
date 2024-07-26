@@ -1,7 +1,6 @@
 import axios from "axios"
 import api from "../constants/ApiUrl"
 import { getToken } from "./TokenService"
-import { ProductRequest } from "../pages/admin/productManager/create/ProductCreate"
 
 export const callAddProduct = async (productData: FormData) => {
     const { data } = await axios({
