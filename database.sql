@@ -7,26 +7,27 @@ CREATE TABLE Role (
 );
 
 CREATE TABLE Category (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    code VARCHAR(10) NOT NULL UNIQUE,
+    code VARCHAR(10) PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE 
 );
 
 CREATE TABLE Brand (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(10) PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE 
 );
 
 CREATE TABLE Product (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    code NVARCHAR(30) NOT NULL,
     name NVARCHAR(50) NOT NULL,
     price FLOAT NOT NULL,
     quantity INT NOT NULL,
-    id_category INT,
-    id_brand INT,
+	description TEXT,
+    code_category VARCHAR(10),
+    code_brand VARCHAR(10),
     status BIT,
-    FOREIGN KEY (id_category) REFERENCES Category(id),
-    FOREIGN KEY (id_brand) REFERENCES Brand(id)
+    FOREIGN KEY (code_category) REFERENCES Category(code),
+    FOREIGN KEY (code_brand) REFERENCES Brand(code)
 );
 
 CREATE TABLE Image (
@@ -82,31 +83,29 @@ VALUES
 (NULL,'ADMIN'),
 (NULL,'USER');
 
-INSERT INTO Category
-VALUES 
-(NULL, 'SD', 'Super Deformed'), 
-(NULL, 'HG', 'High Grade'), 
-(NULL, 'RG', 'Real Grade'), 
-(NULL, 'MG', 'Master Grade'), 
-(NULL, 'PG', 'Perfect Grade');
+INSERT INTO Category (code, name) VALUES 
+('RG', 'Real Grade'),
+('HG', 'High Grade'),
+('PG', 'Perfect Grade');
 
-INSERT INTO Brand
-VALUES 
-(NULL, 'Bandai'), 
-(NULL, 'Kotobukiya'), 
-(NULL, 'Good Smile Company'), 
-(NULL, 'Max Factory');
+-- Bảng Brand
+INSERT INTO Brand (code,name) VALUES 
+('BD','Bandai'),
+('TS','Tamashii Nations'),
+('FM','Fortune Meow');
 
-INSERT INTO Product
-VALUES 
-(NULL, 'RX-78-2 Gundam', 29.99, 100, 2, 1, 1), 
-(NULL, 'Gundam Exia', 34.99, 50, 3, 1, 1), 
-(NULL, 'Gundam Wing Zero', 39.99, 75, 4, 1, 1), 
-(NULL, 'Gundam Barbatos', 24.99, 120, 5, 1, 1);
 
-INSERT INTO Image (id, url, id_product) 
-VALUES 
-(NULL, 'http://example.com/rx-78-2.jpg', 1), 
-(NULL, 'http://example.com/exia.jpg', 2), 
-(NULL, 'http://example.com/wing-zero.jpg', 3), 
-(NULL, 'http://example.com/barbatos.jpg', 4);
+INSERT INTO Product (code, name, price, quantity, description, code_category, code_brand, status) VALUES 
+('HG-RX78-2', 'RX-78-2 Gundam HG', 100.00, 10, 'High Grade 1/144 scale model of RX-78-2 Gundam, featuring detailed articulation and easy assembly.', 'RG', 'BD', 1),
+('PG-ZAKU2', 'Zaku II PG', 250.00, 5, 'Perfect Grade 1/60 scale model of Zaku II, known for its high detail and advanced articulation.', 'RG', 'BD', 1),
+('RG-STRIKE', 'Strike Gundam RG', 120.00, 20, 'Real Grade 1/144 scale model of Strike Gundam, offering a balance of detail and mobility.', 'HG', 'TS', 1),
+('PG-EXIA', 'Gundam Exia PG', 300.00, 7, 'Perfect Grade 1/60 scale model of Gundam Exia, featuring LED light-up units and advanced engineering.', 'HG', 'FM', 1),
+('HG-UNICORN', 'Unicorn Gundam HG', 90.00, 15, 'High Grade 1/144 scale model of Unicorn Gundam, known for its unique transformation and color separation.', 'PG', 'BD', 1);
+
+INSERT INTO Image (url, id_product) VALUES 
+('https://product.hstatic.net/200000504579/product/4573102615909.1__1__da685bb57ef74f53bcc1983dc144770d_master.jpg', 1),
+('https://m.media-amazon.com/images/I/81d7N8QFeNL.jpg', 1),
+('https://m.media-amazon.com/images/I/81d7N8QFeNL.jpg', 2),
+('https://m.media-amazon.com/images/I/81d7N8QFeNL.jpg', 3),
+('https://m.media-amazon.com/images/I/81d7N8QFeNL.jpg', 4),
+('https://m.media-amazon.com/images/I/81d7N8QFeNL.jpg', 5);

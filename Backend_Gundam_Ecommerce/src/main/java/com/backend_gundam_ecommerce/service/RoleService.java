@@ -1,7 +1,7 @@
 package com.backend_gundam_ecommerce.service;
 
-import com.backend_gundam_ecommerce.common.dto.request.RoleRequest;
-import com.backend_gundam_ecommerce.common.dto.response.RoleResponse;
+import com.backend_gundam_ecommerce.dto.request.RoleRequest;
+import com.backend_gundam_ecommerce.dto.response.RoleResponse;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package com.backend_gundam_ecommerce.service.impl;
 
-import com.backend_gundam_ecommerce.common.dto.request.UserCreateRequest;
-import com.backend_gundam_ecommerce.common.dto.response.UserResponse;
+import com.backend_gundam_ecommerce.dto.request.UserCreateRequest;
+import com.backend_gundam_ecommerce.dto.response.UserResponse;
 import com.backend_gundam_ecommerce.entity.User;
-import com.backend_gundam_ecommerce.common.exception.AppException;
-import com.backend_gundam_ecommerce.common.exception.ErrorCode;
+import com.backend_gundam_ecommerce.config.exception.AppException;
+import com.backend_gundam_ecommerce.config.exception.ErrorCode;
 import com.backend_gundam_ecommerce.mapper.UserMapper;
 import com.backend_gundam_ecommerce.repository.UserRepository;
 import com.backend_gundam_ecommerce.service.UserService;

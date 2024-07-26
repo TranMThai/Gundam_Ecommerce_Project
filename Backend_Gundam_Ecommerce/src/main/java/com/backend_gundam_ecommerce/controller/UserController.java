@@ -1,14 +1,11 @@
 package com.backend_gundam_ecommerce.controller;
 
-import com.backend_gundam_ecommerce.common.dto.request.UserCreateRequest;
-import com.backend_gundam_ecommerce.common.dto.response.ApiResponse;
+import com.backend_gundam_ecommerce.dto.request.UserCreateRequest;
+import com.backend_gundam_ecommerce.dto.response.ApiResponse;
 import com.backend_gundam_ecommerce.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

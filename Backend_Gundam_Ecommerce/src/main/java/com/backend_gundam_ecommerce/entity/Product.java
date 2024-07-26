@@ -27,19 +27,23 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String code;
+
     private String name;
 
     private Double price;
 
     private Integer quantity;
 
+    private String description;
+
     private Boolean status;
 
-    @JoinColumn(name = "id_category")
+    @JoinColumn(name = "code_category")
     @ManyToOne
     private Category category;
 
-    @JoinColumn(name = "id_brand")
+    @JoinColumn(name = "code_brand")
     @ManyToOne
     private Brand brand;
 

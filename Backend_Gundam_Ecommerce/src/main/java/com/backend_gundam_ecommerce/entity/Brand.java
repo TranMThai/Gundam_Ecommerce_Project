@@ -1,5 +1,6 @@
 package com.backend_gundam_ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,11 +23,11 @@ import java.util.List;
 public class Brand {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String code;
 
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "brand")
     private List<Product> products;
 

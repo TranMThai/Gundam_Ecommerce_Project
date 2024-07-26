@@ -1,5 +1,6 @@
 package com.backend_gundam_ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class Image {
 
     private String url;
 
+    @JsonIgnore
     @JoinColumn(name = "id_product")
     @ManyToOne
     private Product product;

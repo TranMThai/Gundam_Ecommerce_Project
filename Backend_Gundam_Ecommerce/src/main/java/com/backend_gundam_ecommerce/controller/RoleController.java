@@ -1,7 +1,7 @@
 package com.backend_gundam_ecommerce.controller;
 
-import com.backend_gundam_ecommerce.common.dto.request.RoleRequest;
-import com.backend_gundam_ecommerce.common.dto.response.ApiResponse;
+import com.backend_gundam_ecommerce.dto.request.RoleRequest;
+import com.backend_gundam_ecommerce.dto.response.ApiResponse;
 import com.backend_gundam_ecommerce.service.RoleService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
