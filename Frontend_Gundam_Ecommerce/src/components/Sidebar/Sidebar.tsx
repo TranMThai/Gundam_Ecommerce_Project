@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { Menu, MenuItem, Sidebar as SidebarPro, SubMenu } from 'react-pro-sidebar';
-import './Sidebar.css'
-
+import './Sidebar.css';
 
 const Sidebar: React.FC = () => {
-    const [toggled, setToggled] = React.useState(false);
     const [collapse, setCollapse] = useState<boolean>(false)
     const [openAttributes, setOpenAttributes] = useState<boolean>(false)
-    const [broken, setBroken] = React.useState(window.matchMedia('(max-width: 1200px)').matches);
 
     const handleCollapse = () => setCollapse(!collapse)
     const handleAttributes = () => setOpenAttributes(!openAttributes)
@@ -20,37 +17,42 @@ const Sidebar: React.FC = () => {
                 width='18em'
                 backgroundColor='#101826'
                 id='sidebarPro'
-                customBreakPoint="1200px"
-                onBreakPoint={setBroken}
-                toggled={toggled}
-                onBackdropClick={() => setToggled(false)}
-                breakPoint="always"
             >
                 <Menu
-                    rootStyles={{
-                        color: 'white'
+                    menuItemStyles={{
+                        button: {
+                            boxSizing: 'content-box',
+                            color: 'white',
+                            padding: '.5em 1.2em',
+                            ":hover": {
+                                backgroundColor: '#202839'
+                            }
+                        }
                     }}
                 >
-                    <i className="fa-solid fa-bars fs-3 m-4" onClick={handleCollapse} />
-                    <MenuItem icon={<i className="fa-solid fa-boxes fs-3 m-4" />}> Product </MenuItem>
+                    <div style={{
+                        margin: '5%',
+                        marginTop: '1.5em'
+                    }} >
+                        <img src="/logo.png" alt="" style={{
+                            marginBottom: '1.5em',
+                            width: '100%'
+                        }} />
+                    </div>
+                    <MenuItem icon={<i className="fa-solid fa-boxes fs-4 m-4" />} > Product </MenuItem>
                     <SubMenu label="Attributes"
-                        icon={<i className="fa-solid fa-scroll fs-3 m-4" />}
+                        icon={<i className="fa-solid fa-scroll fs-4 m-4" />}
                         open={openAttributes}
                         onClick={handleAttributes}
                     >
-                        <MenuItem className='background-color'> Category </MenuItem>
-                        <MenuItem className='background-color'> Brand </MenuItem>
+                        <MenuItem className='background-color' style={{paddingLeft: '2.5em'}}> Category </MenuItem>
+                        <MenuItem className='background-color' style={{paddingLeft: '2.5em'}}> Brand </MenuItem>
                     </SubMenu>
-                    <MenuItem icon={<i className="fa-solid fa-archive fs-3 m-4" />}> Order </MenuItem>
+                    <MenuItem icon={<i className="fa-solid fa-archive fs-4 m-4" />}> Order </MenuItem>
                 </Menu>
             </SidebarPro>
-            <div>
-                {broken && (
-                    <button className="sb-button" onClick={() => setToggled(!toggled)}>
-                        Toggle
-                    </button>
-                )}
-            </div>
+            <i className="fa-solid fa-bars fs-3 m-4" onClick={handleCollapse} />
+
         </>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Category from '../../../../types/Categoriy'
+import Category from '../../../../types/Category'
 import Brand from '../../../../types/Brand'
 import { callGetCategory } from '../../../../services/CategoryService'
 import { callGetBrand } from '../../../../services/BrandService'
