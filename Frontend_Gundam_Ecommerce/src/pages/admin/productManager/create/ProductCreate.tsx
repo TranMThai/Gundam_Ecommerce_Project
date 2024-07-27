@@ -55,7 +55,7 @@ const ProductCreate: React.FC = () => {
     }
 
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setProduct({
             ...product,
             [name]: value
