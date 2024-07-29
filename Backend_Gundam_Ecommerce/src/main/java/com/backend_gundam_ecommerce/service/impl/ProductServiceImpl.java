@@ -58,6 +58,12 @@ public class ProductServiceImpl implements ProductService {
                 })
                 .toList();
 
+        productSave.setImages(request.getFileImages().stream()
+                .map(file -> Image.builder()
+                        .url(file.getOriginalFilename())
+                        .build())
+                .toList());
+
         ProductResponse response = productMapper.toDto(productSave);
         return response;
     }

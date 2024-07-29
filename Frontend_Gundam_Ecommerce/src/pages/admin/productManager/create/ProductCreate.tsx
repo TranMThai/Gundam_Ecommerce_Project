@@ -1,9 +1,10 @@
+import { Box, Button, Container, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import Category from '../../../../types/Category'
-import Brand from '../../../../types/Brand'
-import { callGetCategory } from '../../../../services/CategoryService'
 import { callGetBrand } from '../../../../services/BrandService'
+import { callGetCategory } from '../../../../services/CategoryService'
 import { callAddProduct } from '../../../../services/ProductService'
+import Brand from '../../../../types/Brand'
+import Category from '../../../../types/Category'
 
 
 export interface ProductRequest {
@@ -54,7 +55,7 @@ const ProductCreate: React.FC = () => {
         })
     }
 
-    const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleSelect = (e: SelectChangeEvent<string>) => {
         const { name, value } = e.target;
         setProduct({
             ...product,
@@ -95,58 +96,127 @@ const ProductCreate: React.FC = () => {
         }
     };
 
+    useEffect(()=>{
+        console.log(product)
+    },[product])
+
     return (
-        <div>
-            <div>
-                <div>
-                    code
-                    <input type="text" name='code' onChange={handleChangeInput} />
-                </div>
-                <div>
-                    name
-                    <input type="text" name='name' onChange={handleChangeInput} />
-                </div>
-                <div>
-                    price
-                    <input type="text" name='price' onChange={handleChangeInput} />
-                </div>
-                <div>
-                    quantity
-                    <input type="text" name='quantity' onChange={handleChangeInput} />
-                </div>
-                <div>
-                    description
-                    <input type="text" name='description' onChange={handleChangeInput} />
-                </div>
-                <div>
-                    code_category
-                    <select name="code_category" value={product.code_category} onChange={handleSelect}>
+        <Container
+            maxWidth='md'
+        >
+            <Typography
+                variant='h3'
+                sx={{
+                    fontWeight: '400',
+                    mb: 3
+                }}
+            >Create product</Typography>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '2em'
+                }}
+            >
+                <Box>
+                    <TextField
+                        label="Code"
+                        fullWidth
+                        value={product.code}
+                        name='code'
+                        onChange={handleChangeInput}
+                    />
+                </Box>
+                <Box>
+                    <TextField
+                        label="Name"
+                        fullWidth
+                        value={product.name}
+                        name='name'
+                        onChange={handleChangeInput}
+                    />
+                </Box>
+                <Box>
+                    <TextField
+                        label="Price"
+                        fullWidth
+                        type='number'
+                        value={product.price}
+                        name='price'
+                        onChange={handleChangeInput}
+                    />
+                </Box>
+                <Box>
+                    <TextField
+                        label="Quantity"
+                        fullWidth
+                        type='number'
+                        value={product.quantity}
+                        name='quantity'
+                        onChange={handleChangeInput}
+                    />
+                </Box>
+                <Box>
+                    <TextField
+                        label="Description"
+                        fullWidth
+                        multiline
+                        rows={3}
+                        value={product.description}
+                        name='description'
+                        onChange={handleChangeInput}
+                    />
+                </Box>
+                <FormControl fullWidth >
+                    <InputLabel id='category'>Category</InputLabel>
+                    <Select
+                        labelId='category'
+                        value={product.code_category}
+                        label='Category'
+                        name='code_category'
+                        onChange={handleSelect}
+                    >
                         {categories.map(c =>
-                            <option key={c.code} value={c.code}>{c.code + ' - ' + c.name}</option>
+                            <MenuItem key={c.code} value={c.code} >{c.code + ' - ' + c.name}</MenuItem>
                         )}
-                    </select>
-                </div>
-                <div>
-                    code_brand
-                    <select name="code_brand" value={product.code_brand} onChange={handleSelect}>
+                    </Select>
+                </FormControl>
+                <FormControl fullWidth >
+                    <InputLabel id='brand'>Brand</InputLabel>
+                    <Select
+                        labelId='brand'
+                        value={product.code_brand}
+                        label='Brand'
+                        name='code_brand'
+                        onChange={handleSelect}
+                    >
                         {brands.map(b =>
-                            <option key={b.code} value={b.code}>{b.code + ' - ' + b.name}</option>
+                            <MenuItem key={b.code} value={b.code} >{b.code + ' - ' + b.name}</MenuItem>
                         )}
-                    </select>
-                </div>
+                    </Select>
+                </FormControl>
                 <div>
                     Images
-                    <br /> <input type="file" name='images' multiple onChange={handleImage} />
+                    <br /> <input type="file" className='form-control' name='images' multiple onChange={handleImage} />
                     {
                         product.images.map((image, index) => {
                             if (index < 4)
-                                return <div key={index} ><input type="file" name='images' multiple onChange={handleImage} /></div>
+                                return <div key={index} ><input type="file" className='form-control' name='images' multiple onChange={handleImage} /></div>
                         })
                     }
                 </div>
-                <button onClick={handleAdd}>ADD</button>
-            </div>
-        </div>
+                <div className='d-flex justify-content-center'>
+                    <Button
+                        variant='contained'
+                        onClick={handleAdd}
+                        size='large'
+                        color='primary'
+                    >
+                        ADD
+                    </Button>
+                </div>
+            </Box>
+        </Container>
     )
 }
 
