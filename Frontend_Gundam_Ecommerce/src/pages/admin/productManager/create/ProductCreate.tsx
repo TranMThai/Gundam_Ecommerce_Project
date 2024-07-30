@@ -67,7 +67,6 @@ const ProductCreate: React.FC = () => {
     const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files
         if (files?.length) {
-            console.log(files)
             try {
                 handlePreviewImages(files)
             } catch (error) {
@@ -101,6 +100,18 @@ const ProductCreate: React.FC = () => {
             previewImages.forEach(i => URL.revokeObjectURL(i))
         }
     }, [previewImages])
+
+    const removeImage = (index: number) => {
+        setPreviewImages([
+            ...previewImages.filter(img => img !== previewImages[index])
+        ])
+        setProduct({
+            ...product,
+            images: [
+                ...product.images.filter(img => img !== product.images[index])
+            ]
+        })
+    }
 
     const handleAdd = async () => {
         const formData = new FormData();
@@ -231,14 +242,44 @@ const ProductCreate: React.FC = () => {
                         <input type="file" multiple onChange={handleImage} style={{ display: 'none' }} />
                     </Button>
 
-                    <ImageList cols={3} sx={{maxHeight: '25em', mt: '1.5em'}}>
-                        {previewImages.map((img) => (
-                            <ImageListItem key={img}>
+                    <ImageList
+                        cols={3}
+                        sx={{
+                            maxHeight: '25em',
+                            mt: '1.5em',
+                            overflow: 'visible'
+                        }}>
+                        {previewImages.map((img, index) => (
+                            <ImageListItem key={img}
+                                sx={{
+                                    position: 'relative'
+                                }}>
                                 <img
                                     src={img}
                                     alt={img}
                                     loading="lazy"
                                 />
+                                <Button
+                                    variant="contained"
+                                    color='inherit'
+                                    sx={{
+                                        position: 'absolute',
+                                        top: -10,
+                                        right: -10,
+                                        padding: 0,
+                                        width: '2.5em',
+                                        minWidth: '2.5em', 
+                                        aspectRatio: '1/1',
+                                        borderRadius: '50%',
+                                        zIndex: 2,
+                                        ":hover": {
+                                            backgroundColor: '#f04343'
+                                        }
+                                    }}
+                                    onClick={() => removeImage(index)}
+                                >
+                                    <i className="fa-solid fa-xmark" />
+                                </Button>
                             </ImageListItem>
                         ))}
                     </ImageList>

@@ -28,7 +28,7 @@ const AdminLayout: React.FC = () => {
           handleToggled={handleToggled}
           broken={broken}
         />
-        <main style={{ padding: '2em 3em' }}>
+        <main style={{ padding: '2em 0' }}>
           <Outlet />
         </main>
       </div>
