@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material'
+import { Box, Button, Container, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { callGetBrand } from '../../../../services/BrandService'
 import { callGetCategory } from '../../../../services/CategoryService'
@@ -32,6 +32,7 @@ const ProductCreate: React.FC = () => {
     })
     const [categories, setCategories] = useState<Category[]>([])
     const [brands, setBrand] = useState<Brand[]>([])
+    const [previewImages, setPreviewImages] = useState<string[]>([])
 
     useEffect(() => {
         const getCategory = async () => {
@@ -64,16 +65,42 @@ const ProductCreate: React.FC = () => {
     }
 
     const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files != null) {
+        const files = e.target.files
+        if (files?.length) {
+            console.log(files)
+            try {
+                handlePreviewImages(files)
+            } catch (error) {
+                return
+            }
+
             setProduct({
                 ...product,
                 images: [
-                    ...product.images,
-                    e.target.files[0]
+                    ...files
                 ]
             })
         }
     }
+
+    const handlePreviewImages = (files: FileList) => {
+        const previewImageArr = []
+        for (const file of files) {
+            if (!file.type.startsWith('image/')) {
+                throw new Error
+            }
+            previewImageArr.push(URL.createObjectURL(file))
+        }
+        setPreviewImages([
+            ...previewImageArr
+        ])
+    }
+
+    useEffect(() => {
+        return () => {
+            previewImages.forEach(i => URL.revokeObjectURL(i))
+        }
+    }, [previewImages])
 
     const handleAdd = async () => {
         const formData = new FormData();
@@ -95,10 +122,6 @@ const ProductCreate: React.FC = () => {
             console.error('Error adding product:', error);
         }
     };
-
-    useEffect(()=>{
-        console.log(product)
-    },[product])
 
     return (
         <Container
@@ -196,14 +219,29 @@ const ProductCreate: React.FC = () => {
                     </Select>
                 </FormControl>
                 <div>
-                    Images
-                    <br /> <input type="file" className='form-control' name='images' multiple onChange={handleImage} />
-                    {
-                        product.images.map((image, index) => {
-                            if (index < 4)
-                                return <div key={index} ><input type="file" className='form-control' name='images' multiple onChange={handleImage} /></div>
-                        })
-                    }
+                    <span className='me-3'>Images:</span>
+                    <Button
+                        component="label"
+                        role={undefined}
+                        variant="contained"
+                        tabIndex={-1}
+                    >
+                        <i className="fa-solid fa-cloud-arrow-up fs-5 me-2" />
+                        Upload image
+                        <input type="file" multiple onChange={handleImage} style={{ display: 'none' }} />
+                    </Button>
+
+                    <ImageList cols={3} sx={{maxHeight: '25em', mt: '1.5em'}}>
+                        {previewImages.map((img) => (
+                            <ImageListItem key={img}>
+                                <img
+                                    src={img}
+                                    alt={img}
+                                    loading="lazy"
+                                />
+                            </ImageListItem>
+                        ))}
+                    </ImageList>
                 </div>
                 <div className='d-flex justify-content-center'>
                     <Button

@@ -9,7 +9,7 @@ interface IProps {
 const AdminHeader: React.FC<IProps> = ({ handleCollapse, handleToggled, broken }) => {
     return (
         <nav className="navbar navbar-expand-sm navbar-dark position-sticky top-0"
-            style={{ backgroundColor: '#1A2023' }}>
+            style={{ backgroundColor: '#1A2023', zIndex: 99 }}>
             <div className="container-fluid">
 
                 {broken &&
