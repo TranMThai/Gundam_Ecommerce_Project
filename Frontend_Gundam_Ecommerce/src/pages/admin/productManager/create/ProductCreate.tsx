@@ -5,6 +5,7 @@ import { callGetCategory } from '../../../../services/CategoryService'
 import { callAddProduct } from '../../../../services/ProductService'
 import Brand from '../../../../types/Brand'
 import Category from '../../../../types/Category'
+import { useNavigate } from 'react-router-dom'
 
 
 export interface ProductRequest {
@@ -19,6 +20,8 @@ export interface ProductRequest {
 }
 
 const ProductCreate: React.FC = () => {
+
+    const navigate = useNavigate()
 
     const [product, setProduct] = useState<ProductRequest>({
         code: '',
@@ -127,8 +130,9 @@ const ProductCreate: React.FC = () => {
         });
 
         try {
-            const res = await callAddProduct(formData);
-            console.log(res);
+            await callAddProduct(formData);
+            navigate('/admin/product')
+
         } catch (error) {
             console.error('Error adding product:', error);
         }
@@ -245,9 +249,8 @@ const ProductCreate: React.FC = () => {
                     <ImageList
                         cols={3}
                         sx={{
-                            maxHeight: '25em',
                             mt: '1.5em',
-                            overflow: 'visible'
+                            maxHeight: '25em'
                         }}>
                         {previewImages.map((img, index) => (
                             <ImageListItem key={img}
@@ -264,11 +267,11 @@ const ProductCreate: React.FC = () => {
                                     color='inherit'
                                     sx={{
                                         position: 'absolute',
-                                        top: -10,
-                                        right: -10,
+                                        top: 0,
+                                        right: 0,
                                         padding: 0,
                                         width: '2.5em',
-                                        minWidth: '2.5em', 
+                                        minWidth: '2.5em',
                                         aspectRatio: '1/1',
                                         borderRadius: '50%',
                                         zIndex: 2,

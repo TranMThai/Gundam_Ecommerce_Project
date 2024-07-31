@@ -10,6 +10,14 @@ export const callGetAllProduct = async () => {
     return data.result;
 };
 
+export const callGetProductById = async (id: number) => {
+    const { data } = await axios({
+        method: 'GET',
+        url: `${api}/api/products/${id}`
+    });
+    return data.result;
+};
+
 export const callAddProduct = async (productData: FormData) => {
     const { data } = await axios({
         method: 'POST',

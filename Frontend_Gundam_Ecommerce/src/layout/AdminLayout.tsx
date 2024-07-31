@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Sidebar from '../components/Sidebar/Sidebar';
-import AdminHeader from '../components/Header/AdminHeader';
+import AdminHeader from '../components/AdminHeader';
+import Sidebar from '../components/Sidebar';
 
 const AdminLayout: React.FC = () => {
   const [collapse, setCollapse] = useState<boolean>(false)
