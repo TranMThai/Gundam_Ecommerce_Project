@@ -10,7 +10,7 @@ export const callGetAllProduct = async () => {
     return data.result;
 };
 
-export const callGetProductById = async (id: number) => {
+export const callGetProductById = async (id: number|string) => {
     const { data } = await axios({
         method: 'GET',
         url: `${api}/api/products/${id}`
@@ -27,6 +27,14 @@ export const callAddProduct = async (productData: FormData) => {
             Authorization: `Bearer ${getToken()}`,
             'Content-Type': 'multipart/form-data'
         }
+    });
+    return data.result;
+};
+
+export const callUpdateStatus = async (id: number|string) => {
+    const { data } = await axios({
+        method: 'PUT',
+        url: `${api}/api/products/update_status/${id}`,
     });
     return data.result;
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, MenuItem, Sidebar as SidebarPro, SubMenu } from 'react-pro-sidebar';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
     collapse: boolean,
@@ -8,7 +9,13 @@ interface IProps {
     setBroken: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+const menuItemStyles = {
+    paddingLeft: '2.5em',
+    backgroundColor: '#1A2023'
+}
+
 const Sidebar: React.FC<IProps> = ({ collapse, toggled, setToggled, setBroken }) => {
+    const navigate = useNavigate()
     const [openAttributes, setOpenAttributes] = useState<boolean>(false)
 
     const handleAttributes = () => setOpenAttributes(!openAttributes)
@@ -52,7 +59,11 @@ const Sidebar: React.FC<IProps> = ({ collapse, toggled, setToggled, setBroken })
                             width: '100%'
                         }} />
                     </div>
-                    <MenuItem icon={<i className="fa-solid fa-boxes fs-4 m-4" />} > Product </MenuItem>
+                    <MenuItem icon={<i className="fa-solid fa-boxes fs-4 m-4" />}
+                        onClick={() => navigate('/admin/product')}
+                    >
+                        Product
+                    </MenuItem>
                     <SubMenu
                         label="Attributes"
                         icon={<i className="fa-solid fa-scroll fs-4 m-4" />}
@@ -60,21 +71,15 @@ const Sidebar: React.FC<IProps> = ({ collapse, toggled, setToggled, setBroken })
                         onClick={handleAttributes}
                     >
                         <MenuItem
-                            style={{
-                                paddingLeft: '2.5em',
-                                backgroundColor: '#1A2023'
-                            }}
+                            style={menuItemStyles}
                         > Category </MenuItem>
                         <MenuItem
-                            style={{
-                                paddingLeft: '2.5em',
-                                backgroundColor: '#1A2023'
-                            }}
+                            style={menuItemStyles}
                         > Brand </MenuItem>
                     </SubMenu>
                     <MenuItem icon={<i className="fa-solid fa-archive fs-4 m-4" />}> Order </MenuItem>
                 </Menu>
-            </SidebarPro>
+            </SidebarPro >
         </>
     )
 }

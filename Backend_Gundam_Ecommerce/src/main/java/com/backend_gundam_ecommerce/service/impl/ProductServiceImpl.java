@@ -77,6 +77,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductResponse updateStatus(Integer id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        product.setStatus(!product.getStatus());
+        Product entity = productRepository.save(product);
+        ProductResponse response = productMapper.toDto(entity);
+        return response;
+    }
+
+    @Override
     public void deleteById(Integer id) {
         productRepository.deleteById(id);
     }

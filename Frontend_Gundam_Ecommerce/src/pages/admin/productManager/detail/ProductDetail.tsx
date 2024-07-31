@@ -1,8 +1,8 @@
 import { Box, Button, Chip, Container, Grid, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import api from '../../../../constants/ApiUrl'
-import { callGetProductById } from '../../../../services/ProductService'
+import { callGetProductById, callUpdateStatus } from '../../../../services/ProductService'
 import Product from '../../../../types/Product'
 
 const ProductDetail: React.FC = () => {
@@ -26,25 +26,34 @@ const ProductDetail: React.FC = () => {
         },
         images: []
     })
-    const [carouselIndex, setCarouselIndex] = useState<number>(0)
+    const [carouselIndex] = useState<number>(0)
+
+    const fetchProduct = async () => {
+        try {
+            const res = await callGetProductById(Number(id))
+            setProduct({ ...res })
+        } catch (error) {
+            console.error("Lỗi fetch get product by id")
+        }
+    }
 
     useEffect(() => {
-        const fetch = async () => {
-            try {
-                const res = await callGetProductById(Number(id))
-                setProduct({ ...res })
-            } catch (error) {
-                console.error("Lỗi fetch get product by id")
-            }
-        }
-        fetch()
+        fetchProduct()
     }, [])
+
+    const handleUpdateStatus = () => {
+        const updateStatus = async () => {
+            await callUpdateStatus(product.id)
+            fetchProduct()
+        }
+        updateStatus()
+    }
 
     return (
         <Container>
             <Grid container>
                 <Grid item md={6} xs={12}>
-                    <div id="demo" className="carousel slide" data-bs-ride="carousel" style={{
+                    <div id="demo" className="carousel slide" data-interval="true" data-bs-ride="carousel" style={{
                         background: '#ffffff',
                         borderRadius: '1em',
                         overflow: 'hidden',
@@ -153,32 +162,36 @@ const ProductDetail: React.FC = () => {
 
                         <Grid container justifyContent={'space-between'} rowGap={2}>
                             <Grid item lg={5.5} xs={12}>
-                                <Button
-                                    variant='contained'
-                                    fullWidth
-                                    sx={{
-                                        textTransform: 'none',
-                                        display: 'table-cell',
-                                        height: '3em'
-                                    }}
-                                >
-                                    <i className="fa-solid fa-pen me-2" />
-                                    Edit
-                                </Button>
+                                <Link to={`/admin/product/update/${product.id}`}>
+                                    <Button
+                                        variant='contained'
+                                        fullWidth
+                                        sx={{
+                                            textTransform: 'none',
+                                            display: 'table-cell',
+                                            height: '3em'
+                                        }}
+                                    >
+                                        <i className="fa-solid fa-pen me-2" />
+                                        Edit
+                                    </Button>
+                                </Link>
                             </Grid>
                             <Grid item lg={5.5} xs={12}>
                                 <Button
                                     variant='contained'
                                     fullWidth
-                                    color='error'
+                                    color={product.status ? 'error' : 'success'}
                                     sx={{
                                         textTransform: 'none',
                                         display: 'table-cell',
                                         height: '3em'
                                     }}
+                                    onClick={handleUpdateStatus}
                                 >
-                                    <i className="fa-solid fa-xmark me-2" />
-                                    Stop selling
+                                    {product.status ? <i className="fa-solid fa-xmark me-2" /> : <i className="fa-solid fa-check me-2" />}
+
+                                    {product.status ? 'Stop selling' : 'Start selling'}
                                 </Button>
                             </Grid>
                         </Grid>

@@ -16,6 +16,8 @@ public interface ProductService {
 
     ProductResponse update(ProductUpdateRequest dto);
 
+    ProductResponse updateStatus(Integer id);
+
     void deleteById(Integer id);
 
 }

@@ -9,7 +9,7 @@ public class EndPoints {
             "/api/users",
             "/api/users/*",
             "/api/products",
-            "/api/products/*",
+            "/api/products/**",
     };
 
 }

@@ -3,14 +3,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import api from '../constants/ApiUrl'
 import Product from '../types/Product'
+import { linkStyle } from '../styles/styles'
 
 interface IProps {
     pro: Product
-}
-
-const linkStyle = {
-    color: 'black',
-    textDecoration: 'none'
 }
 
 const ProductTableRow: React.FC<IProps> = ({ pro }) => {
@@ -123,13 +119,15 @@ const ProductTableRow: React.FC<IProps> = ({ pro }) => {
                         style={linkStyle}>
                         <MenuItem>
                             <i className="fa-solid fa-eye me-3" />
-                            View</MenuItem>
+                            View
+                        </MenuItem>
                     </Link>
-                    <Link to={'/admin/product/create'}
+                    <Link to={`/admin/product/update/${pro.id}`}
                         style={linkStyle}>
                         <MenuItem>
                             <i className="fa-solid fa-pen me-3" />
-                            Edit</MenuItem>
+                            Edit
+                        </MenuItem>
                     </Link>
                 </Menu>
             </TableCell>
