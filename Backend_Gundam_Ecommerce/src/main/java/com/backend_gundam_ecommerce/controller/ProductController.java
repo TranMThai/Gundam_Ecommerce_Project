@@ -1,6 +1,7 @@
 package com.backend_gundam_ecommerce.controller;
 
 import com.backend_gundam_ecommerce.dto.request.ProductCreateRequest;
+import com.backend_gundam_ecommerce.dto.request.ProductUpdateRequest;
 import com.backend_gundam_ecommerce.dto.request.RoleRequest;
 import com.backend_gundam_ecommerce.dto.response.ApiResponse;
 import com.backend_gundam_ecommerce.service.ProductService;
@@ -47,6 +48,13 @@ public class ProductController {
     ApiResponse<?> create(@Valid @ModelAttribute ProductCreateRequest request) {
         return ApiResponse.builder()
                 .result(productService.create(request))
+                .build();
+    }
+
+    @PutMapping("/update")
+    ApiResponse<?> update(@Valid @ModelAttribute ProductUpdateRequest request) {
+        return ApiResponse.builder()
+                .result(productService.update(request))
                 .build();
     }
 

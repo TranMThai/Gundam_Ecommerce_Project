@@ -2,6 +2,9 @@ package com.backend_gundam_ecommerce.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Data
 public class ProductUpdateRequest {
@@ -18,12 +21,12 @@ public class ProductUpdateRequest {
 
     private String description;
 
-    private Boolean status;
-
-    @JsonProperty("code_category")
     private String codeCategory;
 
-    @JsonProperty("code_brand")
     private String codeBrand;
+
+    private List<MultipartFile> fileImages;
+
+    private Boolean status;
 
 }

@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +52,7 @@ public class ProductServiceImpl implements ProductService {
         entity.setStatus(true);
         Product productSave = productRepository.save(entity);
 
-        List<Image> listImage = request.getFileImages().stream()
-                .map(file -> {
-                    ImageUtils.save(file);
-                    return imageService.create(file, productSave.getId());
-                })
-                .toList();
+        List<Image> imageList = saveImage(request.getFileImages(), productSave.getId());
 
         productSave.setImages(request.getFileImages().stream()
                 .map(file -> Image.builder()
@@ -70,9 +66,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse update(ProductUpdateRequest request) {
+
+        Product productEntity = productRepository.findById(request.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+
         Product entity = productMapper.toEntity(request);
-        Product roleSave = productRepository.save(entity);
-        ProductResponse response = productMapper.toDto(roleSave);
+
+        imageService.deleteByProductId(productEntity.getId());
+
+        List<Image> imageList = saveImage(request.getFileImages(), request.getId());
+
+        entity.setImages(imageList);
+        entity.setBillDetails(productEntity.getBillDetails());
+        entity.setCarts(productEntity.getCarts());
+
+        Product productSave = productRepository.save(entity);
+        ProductResponse response = productMapper.toDto(productSave);
         return response;
     }
 
@@ -89,5 +98,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteById(Integer id) {
         productRepository.deleteById(id);
+    }
+
+    private List<Image> saveImage(List<MultipartFile> files, Integer id) {
+        return files.stream()
+                .map(file -> {
+                    ImageUtils.save(file);
+                    return imageService.create(file, id);
+                })
+                .toList();
     }
 }

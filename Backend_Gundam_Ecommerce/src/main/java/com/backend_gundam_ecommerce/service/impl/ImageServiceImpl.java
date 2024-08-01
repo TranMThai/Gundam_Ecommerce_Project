@@ -53,8 +53,8 @@ public class ImageServiceImpl implements ImageService {
 //        return response;
 //    }
 //
-//    @Override
-//    public void deleteById(Integer id) {
-//        productRepository.deleteById(id);
-//    }
+    @Override
+    public void deleteByProductId(Integer id) {
+        imageRepository.deleteAllByProductId(id);
+    }
 }

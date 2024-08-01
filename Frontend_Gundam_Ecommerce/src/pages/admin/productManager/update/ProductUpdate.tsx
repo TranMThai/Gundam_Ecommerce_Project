@@ -1,11 +1,11 @@
-import { Box, Button, Container, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { callGetBrand } from '../../../../services/BrandService'
-import { callGetCategory } from '../../../../services/CategoryService'
-import { callGetProductById } from '../../../../services/ProductService'
-import Brand from '../../../../types/Brand'
-import Category from '../../../../types/Category'
+import { Box, Button, Container, FormControl, FormControlLabel, ImageList, ImageListItem, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { callGetBrand } from '../../../../services/BrandService';
+import { callGetCategory } from '../../../../services/CategoryService';
+import { callGetProductById, callUpdateProduct } from '../../../../services/ProductService';
+import Brand from '../../../../types/Brand';
+import Category from '../../../../types/Category';
 
 
 export interface ProductRequest {
@@ -17,7 +17,8 @@ export interface ProductRequest {
     description: string,
     code_category: string,
     code_brand: string,
-    images: File[]
+    images: File[],
+    status: boolean
 }
 
 const ProductUpdate: React.FC = () => {
@@ -34,11 +35,14 @@ const ProductUpdate: React.FC = () => {
         description: '',
         code_category: '',
         code_brand: '',
-        images: []
+        images: [],
+        status: false
     })
     const [categories, setCategories] = useState<Category[]>([])
     const [brands, setBrand] = useState<Brand[]>([])
     const [previewImages, setPreviewImages] = useState<string[]>([])
+
+
 
     useEffect(() => {
 
@@ -66,13 +70,6 @@ const ProductUpdate: React.FC = () => {
 
     }, [])
 
-    useEffect(() => {
-        const getPreviewImages = () => {
-            
-        }
-        getPreviewImages()
-    }, [product])
-
     const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setProduct({
@@ -86,6 +83,13 @@ const ProductUpdate: React.FC = () => {
         setProduct({
             ...product,
             [name]: value
+        })
+    }
+
+    const handleStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setProduct({
+            ...product,
+            status: !product.status
         })
     }
 
@@ -140,6 +144,7 @@ const ProductUpdate: React.FC = () => {
 
     const handleUpdate = async () => {
         const formData = new FormData();
+        formData.append('id', product.id.toString());
         formData.append('code', product.code);
         formData.append('name', product.name);
         formData.append('price', product.price.toString());
@@ -147,17 +152,17 @@ const ProductUpdate: React.FC = () => {
         formData.append('description', product.description);
         formData.append('codeCategory', product.code_category);
         formData.append('codeBrand', product.code_brand);
+        formData.append('status', product.status?'true':'false');
         product.images.forEach(image => {
             formData.append('fileImages', image);
         });
 
         try {
-            console.log(product)
-            // await callAddProduct(formData);
-            // navigate('/admin/product')
+            await callUpdateProduct(formData);
+            navigate('/admin/product')
 
         } catch (error) {
-            console.error('Error adding product:', error);
+            console.error('Error updating product:', error);
         }
     };
 
@@ -256,7 +261,7 @@ const ProductUpdate: React.FC = () => {
                         )}
                     </Select>
                 </FormControl>
-                <div>
+                <Box>
                     <span className='me-3'>Images:</span>
                     <Button
                         component="label"
@@ -309,7 +314,17 @@ const ProductUpdate: React.FC = () => {
                             </ImageListItem>
                         ))}
                     </ImageList>
-                </div>
+                </Box>
+                <Box>
+                    <span style={{ marginRight: '1em' }}>Status:</span>
+                    <Switch
+                        checked={Boolean(product.status)}
+                        onChange={handleStatusChange}
+                        sx={{
+                            transform: 'scale(1.5)'
+                        }}
+                    />
+                </Box>
                 <div className='d-flex justify-content-center'>
                     <Button
                         variant='contained'

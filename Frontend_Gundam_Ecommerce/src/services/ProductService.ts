@@ -31,6 +31,19 @@ export const callAddProduct = async (productData: FormData) => {
     return data.result;
 };
 
+export const callUpdateProduct = async (productData: FormData) => {
+    const { data } = await axios({
+        method: 'PUT',
+        url: `${api}/api/products/update`,
+        data: productData,
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+    return data.result;
+};
+
 export const callUpdateStatus = async (id: number|string) => {
     const { data } = await axios({
         method: 'PUT',

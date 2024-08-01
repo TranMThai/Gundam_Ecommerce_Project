@@ -16,6 +16,6 @@ public interface ImageService {
 //
 //    ProductResponse update(ProductUpdateRequest dto);
 //
-//    void deleteById(Integer id);
+    void deleteByProductId(Integer id);
 
 }

@@ -14,35 +14,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin("*")
 @Controller
 @RequestMapping("/images")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class ImageController {
 
-//    @GetMapping("")
-//    ApiResponse<?> findAll() {
-//        return ApiResponse.builder()
-//                .result(brandService.findAll())
-//                .build();
-//    }
-
     @GetMapping("/{name}")
     ResponseEntity<?> findByName(@PathVariable(name = "name", required = true) String name) {
         return ImageUtils.load(name);
     }
-
-//    @PostMapping("")
-//    ApiResponse<?> create(@Valid @RequestBody ProductCreateRequest request) {
-//        return ApiResponse.builder()
-//                .result(categoryService.create(request))
-//                .build();
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    ApiResponse<Void> deleteById(@PathVariable(name = "id", required = true) Integer id) {
-//        categoryService.deleteById(id);
-//        return ApiResponse.<Void>builder().build();
-//    }
 
 }
