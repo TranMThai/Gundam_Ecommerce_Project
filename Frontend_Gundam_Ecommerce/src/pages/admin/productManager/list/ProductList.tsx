@@ -1,4 +1,4 @@
-import { Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { callGetAllProduct } from '../../../../services/ProductService'
@@ -22,24 +22,37 @@ const ProductList: React.FC = () => {
         <Container
             maxWidth='xl'
         >
-            <Typography variant='h3' className='d-inline'>
-                List product
-            </Typography>
-            <Link to='/admin/product/create'>
-                <Button
-                    variant='contained'
-                    color='primary'
-                    style={{
-                        textTransform: 'none',
-                        float: 'right',
-                        display: 'table-cell',
-                        borderRadius: '0.5em'
-                    }}
-                >
-                    <i className="fa-solid fa-plus me-2"></i>
-                    New product
-                </Button>
-            </Link>
+            <Box
+                display='flex'
+                alignItems='center'
+                justifyContent='space-between'
+            >
+                <Typography className='d-inline'
+                    sx={{
+                        fontSize: {
+                            xs: '1.5em',
+                            sm: '2em',
+                            md: '2.5em',
+                            xl: '3em'
+                        }
+                    }}>
+                    List product
+                </Typography>
+                <Link to='/admin/product/create'>
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        style={{
+                            textTransform: 'none',
+                            display: 'table-cell',
+                            borderRadius: '0.5em'
+                        }}
+                    >
+                        <i className="fa-solid fa-plus me-2"></i>
+                        New product
+                    </Button>
+                </Link>
+            </Box>
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>

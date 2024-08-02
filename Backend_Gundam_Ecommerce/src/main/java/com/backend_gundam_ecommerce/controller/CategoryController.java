@@ -1,5 +1,6 @@
 package com.backend_gundam_ecommerce.controller;
 
+import com.backend_gundam_ecommerce.dto.request.CategoryRequest;
 import com.backend_gundam_ecommerce.dto.request.ProductCreateRequest;
 import com.backend_gundam_ecommerce.dto.response.ApiResponse;
 import com.backend_gundam_ecommerce.service.CategoryService;
@@ -39,17 +40,17 @@ public class CategoryController {
                 .build();
     }
 
-//    @PostMapping("")
-//    ApiResponse<?> create(@Valid @RequestBody ProductCreateRequest request) {
-//        return ApiResponse.builder()
-//                .result(categoryService.create(request))
-//                .build();
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    ApiResponse<Void> deleteById(@PathVariable(name = "id", required = true) Integer id) {
-//        categoryService.deleteById(id);
-//        return ApiResponse.<Void>builder().build();
-//    }
+    @PostMapping("")
+    ApiResponse<?> create(@Valid @RequestBody CategoryRequest request) {
+        return ApiResponse.builder()
+                .result(categoryService.save(request))
+                .build();
+    }
+
+    @DeleteMapping("/{id}")
+    ApiResponse<Void> deleteById(@PathVariable(name = "id", required = true) String code) {
+        categoryService.deleteByCode(code);
+        return ApiResponse.<Void>builder().build();
+    }
 
 }

@@ -54,7 +54,7 @@ const ProductTableRow: React.FC<IProps> = ({ pro }) => {
                 <LinearProgress
                     variant="determinate"
                     value={pro.quantity<100?pro.quantity:100}
-                    color={pro.quantity >= 50 ? 'success' : pro.quantity != 0 ? 'warning' : 'error'}
+                    color={pro.quantity >= 50 ? 'success' : pro.quantity > 0 ? 'warning' : 'error'}
                     sx={{
                         height: '0.5em',
                         width: '6em',

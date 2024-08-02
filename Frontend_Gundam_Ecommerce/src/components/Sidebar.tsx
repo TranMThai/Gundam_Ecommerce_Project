@@ -72,6 +72,7 @@ const Sidebar: React.FC<IProps> = ({ collapse, toggled, setToggled, setBroken })
                     >
                         <MenuItem
                             style={menuItemStyles}
+                            onClick={() => navigate('/admin/category')}
                         > Category </MenuItem>
                         <MenuItem
                             style={menuItemStyles}

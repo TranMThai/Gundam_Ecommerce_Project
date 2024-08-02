@@ -1,8 +1,8 @@
-import { Box, Button, Container, FormControl, FormControlLabel, ImageList, ImageListItem, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { callGetBrand } from '../../../../services/BrandService';
-import { callGetCategory } from '../../../../services/CategoryService';
+import { callGetAllBrand } from '../../../../services/BrandService';
+import { callGetAllCategory } from '../../../../services/CategoryService';
 import { callGetProductById, callUpdateProduct } from '../../../../services/ProductService';
 import Brand from '../../../../types/Brand';
 import Category from '../../../../types/Category';
@@ -47,13 +47,13 @@ const ProductUpdate: React.FC = () => {
     useEffect(() => {
 
         const getCategory = async () => {
-            const res = await callGetCategory();
+            const res = await callGetAllCategory();
             setCategories([...res])
         }
         getCategory()
 
         const getBrand = async () => {
-            const res = await callGetBrand();
+            const res = await callGetAllBrand();
             setBrand([...res])
         }
         getBrand()
@@ -86,7 +86,7 @@ const ProductUpdate: React.FC = () => {
         })
     }
 
-    const handleStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleStatusChange = () => {
         setProduct({
             ...product,
             status: !product.status

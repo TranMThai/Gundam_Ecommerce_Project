@@ -1,7 +1,7 @@
 import { Box, Button, Container, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { callGetBrand } from '../../../../services/BrandService'
-import { callGetCategory } from '../../../../services/CategoryService'
+import { callGetAllBrand } from '../../../../services/BrandService'
+import { callGetAllCategory } from '../../../../services/CategoryService'
 import { callAddProduct } from '../../../../services/ProductService'
 import Brand from '../../../../types/Brand'
 import Category from '../../../../types/Category'
@@ -39,13 +39,13 @@ const ProductCreate: React.FC = () => {
 
     useEffect(() => {
         const getCategory = async () => {
-            const res = await callGetCategory();
+            const res = await callGetAllCategory();
             setCategories([...res])
         }
         getCategory()
 
         const getBrand = async () => {
-            const res = await callGetBrand();
+            const res = await callGetAllBrand();
             setBrand([...res])
         }
         getBrand()

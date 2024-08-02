@@ -44,7 +44,7 @@ const ProductDetail: React.FC = () => {
     const handleUpdateStatus = () => {
         const updateStatus = async () => {
             await callUpdateStatus(product.id)
-            fetchProduct()
+            await fetchProduct()
         }
         updateStatus()
     }

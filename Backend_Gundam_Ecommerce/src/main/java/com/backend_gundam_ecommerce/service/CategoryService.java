@@ -1,5 +1,6 @@
 package com.backend_gundam_ecommerce.service;
 
+import com.backend_gundam_ecommerce.dto.request.CategoryRequest;
 import com.backend_gundam_ecommerce.dto.request.ProductCreateRequest;
 import com.backend_gundam_ecommerce.dto.request.ProductUpdateRequest;
 import com.backend_gundam_ecommerce.dto.response.CategoryResponse;
@@ -13,10 +14,8 @@ public interface CategoryService {
 
     CategoryResponse findById(String id);
 
-//    ProductResponse create(ProductCreateRequest dto);
-//
-//    ProductResponse update(ProductUpdateRequest dto);
-//
-//    void deleteById(Integer id);
+    CategoryResponse save(CategoryRequest dto);
+
+    void deleteByCode(String code);
 
 }
