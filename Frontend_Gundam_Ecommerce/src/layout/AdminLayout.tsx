@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import AdminHeader from '../components/AdminHeader';
 import Sidebar from '../components/Sidebar';
+import { ADMIN } from '../constants/Roles';
+import { author } from '../services/AuthService';
 
 const AdminLayout: React.FC = () => {
   const [collapse, setCollapse] = useState<boolean>(false)
@@ -11,7 +13,11 @@ const AdminLayout: React.FC = () => {
   const handleCollapse = () => setCollapse(!collapse)
   const handleToggled = () => {
     setToggled(!toggled),
-    setCollapse(false)
+      setCollapse(false)
+  }
+
+  if (author()!=ADMIN) {
+    return <Navigate to="/login" />; 
   }
 
   return (

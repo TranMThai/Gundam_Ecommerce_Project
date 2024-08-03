@@ -1,5 +1,13 @@
-export const saveToken = (token: string) => {
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import { ADMIN } from "../constants/Roles";
+import { author } from "./AuthService";
+
+
+export const saveToken = (token: string, navigate: NavigateFunction) => {
     localStorage.setItem('user', token);
+    if (author() == ADMIN) {
+        navigate('/admin/product')
+    }
 }
 
 export const getToken = () => {
