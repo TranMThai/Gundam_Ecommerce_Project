@@ -4,6 +4,7 @@ import Register from '../pages/Register'
 import AdminLayout from '../layout/AdminLayout'
 import ProductManager from '../pages/admin/productManager'
 import CategoryManager from '../pages/admin/categoryManager'
+import BrandManager from '../pages/admin/brandManager'
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
       <Route element={<AdminLayout />}>
         <Route path='/admin/product/*' element={<ProductManager />} />
         <Route path='/admin/category' element={<CategoryManager />} />
+        <Route path='/admin/brand' element={<BrandManager />} />
       </Route>
     </Routes>
   )

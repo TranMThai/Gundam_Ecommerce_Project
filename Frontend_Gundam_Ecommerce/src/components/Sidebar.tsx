@@ -76,6 +76,7 @@ const Sidebar: React.FC<IProps> = ({ collapse, toggled, setToggled, setBroken })
                         > Category </MenuItem>
                         <MenuItem
                             style={menuItemStyles}
+                            onClick={() => navigate('/admin/brand')}
                         > Brand </MenuItem>
                     </SubMenu>
                     <MenuItem icon={<i className="fa-solid fa-archive fs-4 m-4" />}> Order </MenuItem>

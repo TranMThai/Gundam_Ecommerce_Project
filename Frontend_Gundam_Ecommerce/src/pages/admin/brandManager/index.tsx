@@ -1,39 +1,39 @@
 import { Box, Button, Container, Grid, Stack, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { callDeleteCategoryByCode, callGetAllCategory, callGetCategoryByCode, callSaveCategory } from '../../../services/CategoryService'
-import Category from '../../../types/Category'
 import AttributesTable from '../../../components/AttributesTable'
+import Brand from '../../../types/Brand'
+import { callDeleteBrandByCode, callGetAllBrand, callGetBrandByCode, callSaveBrand } from '../../../services/BrandService'
 
-const CategoryManager: React.FC = () => {
+const BrandManager: React.FC = () => {
 
-    const [categories, setCategories] = useState<Category[]>([])
-    const [category, setCategory] = useState<Category>({
+    const [brands, setBrands] = useState<Brand[]>([])
+    const [brand, setBrand] = useState<Brand>({
         code: '',
         name: ''
     })
 
-    const fetchCategories = async () => {
-        const res = await callGetAllCategory()
-        setCategories([...res])
+    const fetchBrands = async () => {
+        const res = await callGetAllBrand()
+        setBrands([...res])
     }
 
     useEffect(() => {
-        fetchCategories()
+        fetchBrands()
     }, [])
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
-        setCategory({
-            ...category,
+        setBrand({
+            ...brand,
             [name]: value
         })
     }
 
     const handleSave = () => {
         const fetch = async () => {
-            await callSaveCategory(category)
-            await fetchCategories()
+            await callSaveBrand(brand)
+            await fetchBrands()
         }
         fetch()
         handleClear()
@@ -42,7 +42,7 @@ const CategoryManager: React.FC = () => {
 
 
     const handleClear = () => {
-        setCategory({
+        setBrand({
             code: '',
             name: ''
         })
@@ -53,15 +53,15 @@ const CategoryManager: React.FC = () => {
         <Container
             maxWidth='lg'
         >
-            Categories
+            Brands
             <Grid container justifyContent='space-between'>
                 <Grid item sm={5.5} xs={12}>
                     <AttributesTable
-                        attributes={categories}
-                        setAttribute={setCategory}
-                        fetchAttributes={fetchCategories}
-                        callGetAttributeByCode={callGetCategoryByCode}
-                        callDeleteAttributeByCode={callDeleteCategoryByCode}
+                        attributes={brands}
+                        setAttribute={setBrand}
+                        fetchAttributes={fetchBrands}
+                        callGetAttributeByCode={callGetBrandByCode}
+                        callDeleteAttributeByCode={callDeleteBrandByCode}
                     />
                 </Grid>
                 <Grid item sm={5} xs={12}>
@@ -79,7 +79,7 @@ const CategoryManager: React.FC = () => {
                                 fullWidth
                                 label="Code"
                                 name='code'
-                                value={category.code}
+                                value={brand.code}
                                 onChange={handleChange}
                             />
                         </Box>
@@ -88,7 +88,7 @@ const CategoryManager: React.FC = () => {
                                 fullWidth
                                 label="Name"
                                 name='name'
-                                value={category.name}
+                                value={brand.name}
                                 onChange={handleChange}
                             />
                         </Box>
@@ -121,4 +121,4 @@ const CategoryManager: React.FC = () => {
     )
 }
 
-export default CategoryManager
+export default BrandManager

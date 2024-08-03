@@ -2,8 +2,12 @@ package com.backend_gundam_ecommerce.service.impl;
 
 import com.backend_gundam_ecommerce.config.exception.AppException;
 import com.backend_gundam_ecommerce.config.exception.ErrorCode;
+import com.backend_gundam_ecommerce.dto.request.BrandRequest;
+import com.backend_gundam_ecommerce.dto.request.CategoryRequest;
 import com.backend_gundam_ecommerce.dto.response.BrandResponse;
 import com.backend_gundam_ecommerce.dto.response.CategoryResponse;
+import com.backend_gundam_ecommerce.entity.Brand;
+import com.backend_gundam_ecommerce.entity.Category;
 import com.backend_gundam_ecommerce.mapper.BrandMapper;
 import com.backend_gundam_ecommerce.repository.BrandRepository;
 import com.backend_gundam_ecommerce.service.BrandService;
@@ -36,25 +40,16 @@ public class BrandServiceImpl implements BrandService {
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
     }
 
-//    @Override
-//    public ProductResponse create(ProductCreateRequest request) {
-//        Product entity = productMapper.toEntity(request);
-//        entity.setStatus(true);
-//        Product roleSave = productRepository.save(entity);
-//        ProductResponse response = productMapper.toDto(roleSave);
-//        return response;
-//    }
-//
-//    @Override
-//    public ProductResponse update(ProductUpdateRequest request) {
-//        Product entity = productMapper.toEntity(request);
-//        Product roleSave = productRepository.save(entity);
-//        ProductResponse response = productMapper.toDto(roleSave);
-//        return response;
-//    }
-//
-//    @Override
-//    public void deleteById(Integer id) {
-//        productRepository.deleteById(id);
-//    }
+    @Override
+    public BrandResponse save(BrandRequest request) {
+        Brand entity = brandMapper.toEntity(request);
+        Brand brandSave = brandRepository.save(entity);
+        BrandResponse response = brandMapper.toDto(brandSave);
+        return response;
+    }
+
+    @Override
+    public void deleteByCode(String code) {
+        brandRepository.deleteById(code);
+    }
 }
