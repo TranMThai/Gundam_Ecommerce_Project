@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router-dom';
 import AdminHeader from '../components/AdminHeader';
 import Sidebar from '../components/Sidebar';
 import { ADMIN } from '../constants/Roles';
-import { author } from '../services/AuthService';
+import { userPayloadSelector } from '../redux/reducer/UserPayloadReducer';
 
 const AdminLayout: React.FC = () => {
+  const navigate = useNavigate()
+  const user = useSelector(userPayloadSelector)
   const [collapse, setCollapse] = useState<boolean>(false)
   const [toggled, setToggled] = React.useState(false);
   const [broken, setBroken] = React.useState(window.matchMedia('(max-width: 1000px)').matches);
@@ -16,9 +19,10 @@ const AdminLayout: React.FC = () => {
       setCollapse(false)
   }
 
-  if (author()!=ADMIN) {
-    return <Navigate to="/login" />; 
-  }
+  useEffect(() => {
+    if (user?.scope !== ADMIN)
+      navigate("/login")
+  }, [user])
 
   return (
     <div className="d-flex">

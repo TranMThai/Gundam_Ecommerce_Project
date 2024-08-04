@@ -1,4 +1,4 @@
-type JwtPayload = {
+type JwtUserPayload = {
     user_id: number,
     sub: string,
     scope: string,
@@ -6,4 +6,4 @@ type JwtPayload = {
     exp: number
 }
 
-export default JwtPayload
+export default JwtUserPayload

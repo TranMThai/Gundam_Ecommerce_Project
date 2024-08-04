@@ -1,13 +1,18 @@
 import { Button, Checkbox, Container, FormControlLabel, Stack, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import UserPayloadReducer, { userPayloadSelector } from '../redux/reducer/UserPayloadReducer'
 import { callLogin } from '../services/AuthService'
-import { saveToken } from '../services/TokenService'
+import { getToken, saveToken } from '../services/TokenService'
 import Authentication from '../types/Authentication'
+import { ADMIN } from '../constants/Roles'
 
 const Login: React.FC = () => {
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const user = useSelector(userPayloadSelector);
 
   const [auth, setAuth] = useState<Authentication>({
     username: "",
@@ -29,9 +34,20 @@ const Login: React.FC = () => {
   }
 
   const login = async () => {
-    const res = await callLogin(auth)
-    saveToken(res.result.token, navigate)
-  }
+    try {
+      const res = await callLogin(auth);
+      saveToken(res.result.token);
+      dispatch(UserPayloadReducer.actions.setUserPayload(getToken()));
+    } catch (error) {
+      console.error("Login failed", error);
+    }
+  };
+
+  useEffect(() => {
+    if (user?.scope === ADMIN) {
+      navigate("/admin/product")
+    }
+  }, [user])
 
   return (
     <Container
