@@ -25,14 +25,11 @@ public class UserCreateRequest {
     @JsonProperty("last_name")
     private String lastName;
 
-    @JsonProperty("url_image")
-    private String urlImage;
-
     private Boolean gender;
 
     private String email;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birth;
 
     @JsonProperty("id_role")

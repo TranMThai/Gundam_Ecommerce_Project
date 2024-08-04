@@ -16,14 +16,13 @@ import java.time.LocalDate;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserResponse {
 
+    private String username;
+
     @JsonProperty("first_name")
     private String firstName;
 
     @JsonProperty("last_name")
     private String lastName;
-
-    @JsonProperty("url_image")
-    private String urlImage;
 
     private Boolean gender;
 

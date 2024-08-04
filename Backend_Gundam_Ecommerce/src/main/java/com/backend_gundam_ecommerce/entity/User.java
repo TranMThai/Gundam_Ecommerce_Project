@@ -39,9 +39,6 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "url_image")
-    private String urlImage;
-
     private Boolean gender;
 
     private String email;

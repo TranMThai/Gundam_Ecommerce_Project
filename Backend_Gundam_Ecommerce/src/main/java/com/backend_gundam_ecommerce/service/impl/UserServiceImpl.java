@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService {
         }
         User entity = userMapper.toEntity(request);
         encoding(entity);
-        System.out.println(entity);
         User saveUser = userRepository.save(entity);
         UserResponse response = userMapper.toDto(saveUser);
         return response;
