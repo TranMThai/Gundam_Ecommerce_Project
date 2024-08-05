@@ -104,6 +104,26 @@ const Login: React.FC = () => {
             Login
           </Button>
         </Stack>
+        <Stack
+          width='100%'
+        >
+          <Button
+            fullWidth
+            variant='outlined'
+          >
+            <img src="/google-icon.svg" alt="" width='40px' />
+            <Typography
+              sx={{
+                fontWeight: 500,
+                fontSize: 20,
+                ml: 1,
+                textTransform: 'capitalize'
+              }}
+            >
+              Google
+            </Typography>
+          </Button>
+        </Stack>
       </Stack>
     </Container>
   )
