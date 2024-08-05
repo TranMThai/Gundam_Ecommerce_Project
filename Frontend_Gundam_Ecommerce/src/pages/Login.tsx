@@ -7,6 +7,7 @@ import { callLogin } from '../services/AuthService'
 import { getToken, saveToken } from '../services/TokenService'
 import Authentication from '../types/Authentication'
 import { ADMIN } from '../constants/Roles'
+import { OAuthConfig } from '../config/config'
 
 const Login: React.FC = () => {
 
@@ -20,6 +21,10 @@ const Login: React.FC = () => {
   })
 
   const [isShow, setIsShow] = useState<boolean>(false)
+
+  const { client_id, auth_uri, redirect_uri } = OAuthConfig
+
+  const urlLoginGoogle = `${auth_uri}?redirect_uri=${encodeURIComponent(redirect_uri)}&response_type=token&client_id=${client_id}&scope=openid%20email%20profile`
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -48,6 +53,10 @@ const Login: React.FC = () => {
       navigate("/admin/product")
     }
   }, [user])
+
+  const loginWithGoogle = () => {
+    window.location.href = urlLoginGoogle
+  }
 
   return (
     <Container
@@ -110,6 +119,7 @@ const Login: React.FC = () => {
           <Button
             fullWidth
             variant='outlined'
+            onClick={loginWithGoogle}
           >
             <img src="/google-icon.svg" alt="" width='40px' />
             <Typography

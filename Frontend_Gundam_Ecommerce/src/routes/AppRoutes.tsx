@@ -5,6 +5,7 @@ import AdminLayout from '../layout/AdminLayout'
 import ProductManager from '../pages/admin/productManager'
 import CategoryManager from '../pages/admin/categoryManager'
 import BrandManager from '../pages/admin/brandManager'
+import Authenticate from '../components/Authenticate'
 
 const AppRoutes = () => {
   return (
@@ -12,6 +13,7 @@ const AppRoutes = () => {
       {/* public */}
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
+      <Route path='/authenticate' element={<Authenticate />} />
 
       {/* admin */}
       <Route element={<AdminLayout />}>
