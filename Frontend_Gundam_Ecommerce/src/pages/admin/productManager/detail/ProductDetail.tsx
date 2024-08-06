@@ -62,7 +62,7 @@ const ProductDetail: React.FC = () => {
                     }}  >
 
                         <div className="carousel-indicators">
-                            {product?.images.map((image, index) =>
+                            {product?.images.map((_, index) =>
                                 <button key={index}
                                     type="button"
                                     data-bs-target="#demo"

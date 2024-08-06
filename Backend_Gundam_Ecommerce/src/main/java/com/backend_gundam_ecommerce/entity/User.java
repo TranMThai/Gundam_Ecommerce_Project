@@ -39,6 +39,12 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "id_google_account")
+    private String idGoogleAccount;
+
+    @Column(name = "url_avatar")
+    private String urlAvatar;
+
     private Boolean gender;
 
     private String email;

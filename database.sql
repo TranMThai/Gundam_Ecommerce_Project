@@ -43,7 +43,8 @@ CREATE TABLE User (
     password TEXT NOT NULL,
     first_name NVARCHAR(20),
     last_name NVARCHAR(20),
-    url_image TEXT,
+    id_google_account VARCHAR(255) NULL,
+    url_avatar TEXT NULL,
     gender BIT,
     email VARCHAR(50),
     birth DATE,
@@ -103,9 +104,15 @@ INSERT INTO Product (code, name, price, quantity, description, code_category, co
 ('HG-UNICORN', 'Unicorn Gundam HG', 90.00, 15, 'High Grade 1/144 scale model of Unicorn Gundam, known for its unique transformation and color separation.', 'PG', 'BD', 1);
 
 INSERT INTO Image (url, id_product) VALUES 
-('https://product.hstatic.net/200000504579/product/4573102615909.1__1__da685bb57ef74f53bcc1983dc144770d_master.jpg', 1),
-('https://m.media-amazon.com/images/I/81d7N8QFeNL.jpg', 1),
-('https://m.media-amazon.com/images/I/81d7N8QFeNL.jpg', 2),
-('https://m.media-amazon.com/images/I/81d7N8QFeNL.jpg', 3),
-('https://m.media-amazon.com/images/I/81d7N8QFeNL.jpg', 4),
-('https://m.media-amazon.com/images/I/81d7N8QFeNL.jpg', 5);
+('cua_hang_do_choi_ban_rx-78-2_gundam_rg_grande.png', 1),
+('7173ulQ+B9S._AC_SL1500_.jpg', 2),
+('71PdGNJJUBL._AC_SL1500_.jpg', 2),
+('4573102615909.png', 3),
+('61n0WpnHb1L._AC_UF894,1000_QL80_.jpg', 3),
+('71vioR5wsHL._AC_SX522_.jpg', 4),
+('61TdbxRyJBS._AC_SX466_.jpg', 4),
+('71XZPwHZRQL._AC_SL1500_.jpg', 5),
+('71wVQyvx+cL._AC_SL1500_.jpg', 5),
+('71vt7nOEAtL._AC_SL1500_.jpg', 5),
+('71ESdW85jzL._AC_SL1500_.jpg', 5),
+('71kE1Q3CeYL._AC_SL1500_.jpg', 5);
