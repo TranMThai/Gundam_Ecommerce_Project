@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
@@ -25,18 +26,32 @@ public class AuthController {
     AuthenticationService authenticationService;
 
     @PostMapping("/token")
-    public ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
-        AuthenticationResponse Authresponse = authenticationService.authenticate(request);
+    public ApiResponse<AuthenticationResponse> authenticate(
+            @RequestBody AuthenticationRequest request
+    ) {
+        AuthenticationResponse authenticationResponse = authenticationService.authenticate(request);
         return ApiResponse.<AuthenticationResponse>builder()
-                .result(Authresponse)
+                .result(authenticationResponse)
                 .build();
     }
 
     @PostMapping("/introspect")
-    public ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest request) {
+    public ApiResponse<IntrospectResponse> introspect(
+            @RequestBody IntrospectRequest request
+    ) {
         IntrospectResponse introspected = authenticationService.introspect(request);
         return ApiResponse.<IntrospectResponse>builder()
                 .result(introspected)
+                .build();
+    }
+
+    @PostMapping("/outbound/authentication")
+    public ApiResponse<AuthenticationResponse> outboundAuthenticate(
+            @RequestParam(name = "code") String code
+    ) {
+        AuthenticationResponse authenticationResponse = authenticationService.outboundAuthenticate(code);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(authenticationResponse)
                 .build();
     }
 

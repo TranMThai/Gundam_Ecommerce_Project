@@ -1,12 +1,15 @@
 package com.backend_gundam_ecommerce.config.security;
 
 import com.backend_gundam_ecommerce.dto.request.AuthenticationRequest;
+import com.backend_gundam_ecommerce.dto.request.ExchangeTokenRequest;
 import com.backend_gundam_ecommerce.dto.request.IntrospectRequest;
 import com.backend_gundam_ecommerce.dto.response.AuthenticationResponse;
+import com.backend_gundam_ecommerce.dto.response.ExchangeTokenResponse;
 import com.backend_gundam_ecommerce.dto.response.IntrospectResponse;
 import com.backend_gundam_ecommerce.entity.User;
 import com.backend_gundam_ecommerce.config.exception.AppException;
 import com.backend_gundam_ecommerce.config.exception.ErrorCode;
+import com.backend_gundam_ecommerce.repository.OutboundIdentityClient;
 import com.backend_gundam_ecommerce.repository.UserRepository;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -18,10 +21,12 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import feign.FeignException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,17 +35,35 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class AuthenticationService {
 
     @NonFinal
     @Value("${jwt.SIGNER_KEY}")
     String key;
+
+    @NonFinal
+    @Value("${outbound.google.CLIENT_ID}")
+    String CLIENT_ID;
+
+    @NonFinal
+    @Value("${outbound.google.CLIENT_SECRET}")
+    String CLIENT_SECRET;
+
+    @NonFinal
+    @Value("${outbound.google.REDIRECT_URI}")
+    String REDIRECT_URI;
+
+
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+    OutboundIdentityClient outboundIdentityClient;
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
@@ -55,6 +78,20 @@ public class AuthenticationService {
 
         return AuthenticationResponse.builder()
                 .token(token)
+                .build();
+    }
+
+    public AuthenticationResponse outboundAuthenticate(String code){
+        var response = outboundIdentityClient.exchangeToken(ExchangeTokenRequest.builder()
+                .code(code)
+                .clientId(CLIENT_ID)
+                .clientSecret(CLIENT_SECRET)
+                .redirectUri(REDIRECT_URI)
+                .grantType("authorization_code")
+                .build());
+
+        return AuthenticationResponse.builder()
+                .token(response.getAccessToken())
                 .build();
     }
 
@@ -87,7 +124,7 @@ public class AuthenticationService {
                         Instant.now().plus(100, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .claim("user_id", user.getId())
-                .claim("scope",user.getRole().getName())
+                .claim("scope", user.getRole().getName())
                 .build();
 
         Payload payload = new Payload(claimsSet.toJSONObject());

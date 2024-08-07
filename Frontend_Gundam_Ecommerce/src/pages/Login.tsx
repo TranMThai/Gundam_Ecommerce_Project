@@ -24,7 +24,7 @@ const Login: React.FC = () => {
 
   const { client_id, auth_uri, redirect_uri } = OAuthConfig
 
-  const urlLoginGoogle = `${auth_uri}?redirect_uri=${encodeURIComponent(redirect_uri)}&response_type=token&client_id=${client_id}&scope=openid%20email%20profile`
+  const urlLoginGoogle = `${auth_uri}?redirect_uri=${encodeURIComponent(redirect_uri)}&response_type=code&client_id=${client_id}&scope=openid%20email%20profile`
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target

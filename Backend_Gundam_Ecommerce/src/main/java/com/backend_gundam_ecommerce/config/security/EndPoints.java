@@ -4,8 +4,7 @@ public class EndPoints {
 
     public static final String[] PUBLIC_ENDPOINTS = {
             "/images/**",
-            "/auth/token",
-            "/auth/introspect",
+            "/auth/**",
             "/api/users",
             "/api/users/*",
             "/api/products",
