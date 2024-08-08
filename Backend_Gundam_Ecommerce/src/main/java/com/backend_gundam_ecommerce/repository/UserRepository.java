@@ -15,10 +15,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByUsername(String username);
 
-    @Query(value = " SELECT u " +
-            " FROM User u " +
-            " WHERE u.email = :email " +
-            " OR u.idGoogleAccount = :idGoogleAccount")
+    @Query(value = "SELECT u " +
+            "FROM User u " +
+            "WHERE u.email = :email " +
+            "OR u.idGoogleAccount = :idGoogleAccount ")
     Optional<User> findByEmailOrIdGoogleAccount(
             @Param("email") String email,
             @Param("idGoogleAccount") String idGoogleAccount);

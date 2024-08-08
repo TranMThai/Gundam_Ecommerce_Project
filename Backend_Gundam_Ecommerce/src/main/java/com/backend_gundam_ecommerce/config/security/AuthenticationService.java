@@ -36,6 +36,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -92,20 +93,23 @@ public class AuthenticationService {
 
         OutboundUserResponse userInfo = outboundUserClient.exchangeToken("json", response.getAccessToken());
 
-        userRepository.findByEmailOrIdGoogleAccount(userInfo.getEmail(), userInfo.getId())
-                .orElse(userRepository.save(User.builder()
-                        .idGoogleAccount(userInfo.getId())
-                        .email(userInfo.getEmail())
-                        .firstName(userInfo.getGiven_name())
-                        .lastName(userInfo.getFamily_name())
-                        .urlAvatar(userInfo.getPicture())
-                        .role(Role.builder()
-                                .id(2)
-                                .build())
-                        .build()));
+        Optional<User> user = userRepository.findByEmailOrIdGoogleAccount(userInfo.getEmail(), userInfo.getId());
+
+        if (!user.isPresent()) {
+            user = Optional.of(userRepository.save(User.builder()
+                    .idGoogleAccount(userInfo.getId())
+                    .email(userInfo.getEmail())
+                    .firstName(userInfo.getGiven_name())
+                    .lastName(userInfo.getFamily_name())
+                    .urlAvatar(userInfo.getPicture())
+                    .role(Role.builder()
+                            .id(2)
+                            .build())
+                    .build()));
+        }
 
         return AuthenticationResponse.builder()
-                .token(response.getAccessToken())
+                .token(generateToken(user.get()))
                 .build();
     }
 
