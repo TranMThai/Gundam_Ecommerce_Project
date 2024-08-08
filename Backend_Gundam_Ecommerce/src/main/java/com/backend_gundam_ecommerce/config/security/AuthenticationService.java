@@ -1,16 +1,18 @@
 package com.backend_gundam_ecommerce.config.security;
 
+import com.backend_gundam_ecommerce.config.exception.AppException;
+import com.backend_gundam_ecommerce.config.exception.ErrorCode;
 import com.backend_gundam_ecommerce.dto.request.AuthenticationRequest;
 import com.backend_gundam_ecommerce.dto.request.ExchangeTokenRequest;
 import com.backend_gundam_ecommerce.dto.request.IntrospectRequest;
 import com.backend_gundam_ecommerce.dto.response.AuthenticationResponse;
-import com.backend_gundam_ecommerce.dto.response.ExchangeTokenResponse;
 import com.backend_gundam_ecommerce.dto.response.IntrospectResponse;
+import com.backend_gundam_ecommerce.dto.response.OutboundUserResponse;
+import com.backend_gundam_ecommerce.entity.Role;
 import com.backend_gundam_ecommerce.entity.User;
-import com.backend_gundam_ecommerce.config.exception.AppException;
-import com.backend_gundam_ecommerce.config.exception.ErrorCode;
-import com.backend_gundam_ecommerce.repository.OutboundIdentityClient;
 import com.backend_gundam_ecommerce.repository.UserRepository;
+import com.backend_gundam_ecommerce.repository.httpclient.OutboundIdentityClient;
+import com.backend_gundam_ecommerce.repository.httpclient.OutboundUserClient;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -21,7 +23,6 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import feign.FeignException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -35,8 +36,6 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +63,7 @@ public class AuthenticationService {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
     OutboundIdentityClient outboundIdentityClient;
+    OutboundUserClient outboundUserClient;
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
@@ -81,7 +81,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse outboundAuthenticate(String code){
+    public AuthenticationResponse outboundAuthenticate(String code) {
         var response = outboundIdentityClient.exchangeToken(ExchangeTokenRequest.builder()
                 .code(code)
                 .clientId(CLIENT_ID)
@@ -89,6 +89,20 @@ public class AuthenticationService {
                 .redirectUri(REDIRECT_URI)
                 .grantType("authorization_code")
                 .build());
+
+        OutboundUserResponse userInfo = outboundUserClient.exchangeToken("json", response.getAccessToken());
+
+        userRepository.findByEmailOrIdGoogleAccount(userInfo.getEmail(), userInfo.getId())
+                .orElse(userRepository.save(User.builder()
+                        .idGoogleAccount(userInfo.getId())
+                        .email(userInfo.getEmail())
+                        .firstName(userInfo.getGiven_name())
+                        .lastName(userInfo.getFamily_name())
+                        .urlAvatar(userInfo.getPicture())
+                        .role(Role.builder()
+                                .id(2)
+                                .build())
+                        .build()));
 
         return AuthenticationResponse.builder()
                 .token(response.getAccessToken())

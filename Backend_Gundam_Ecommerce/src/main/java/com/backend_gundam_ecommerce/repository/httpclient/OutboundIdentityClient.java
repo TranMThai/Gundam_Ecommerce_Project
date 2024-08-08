@@ -1,4 +1,4 @@
-package com.backend_gundam_ecommerce.repository;
+package com.backend_gundam_ecommerce.repository.httpclient;
 
 import com.backend_gundam_ecommerce.dto.request.ExchangeTokenRequest;
 import com.backend_gundam_ecommerce.dto.response.ExchangeTokenResponse;

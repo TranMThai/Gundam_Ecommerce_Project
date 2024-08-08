@@ -9,9 +9,14 @@ const Authenticate: React.FC = () => {
     const fetch = async () => {
         const params = new URL(window.location.href)
         const code = params.searchParams.get("code")
-        console.log(code)
         if (code) {
-            const {data} = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&code=${code}`);
+            const {data} = await axios({
+                method: 'POST',
+                url: `http://localhost:8080/auth/outbound/authentication`,
+                params: {
+                    code: code
+                }
+            });
             console.log(data)
         } else {
             console.error("Access token không có trong URL.");
