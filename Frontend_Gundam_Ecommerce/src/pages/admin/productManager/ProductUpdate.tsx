@@ -1,11 +1,11 @@
 import { Box, Button, Container, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { callGetAllBrand } from '../../../../services/BrandService';
-import { callGetAllCategory } from '../../../../services/CategoryService';
-import { callGetProductById, callUpdateProduct } from '../../../../services/ProductService';
-import Brand from '../../../../types/Brand';
-import Category from '../../../../types/Category';
+import { callGetAllBrand } from '../../../services/BrandService';
+import { callGetAllCategory } from '../../../services/CategoryService';
+import { callGetProductById, callUpdateProduct } from '../../../services/ProductService';
+import Brand from '../../../types/Brand';
+import Category from '../../../types/Category';
 
 
 export interface ProductRequest {
@@ -152,7 +152,7 @@ const ProductUpdate: React.FC = () => {
         formData.append('description', product.description);
         formData.append('codeCategory', product.code_category);
         formData.append('codeBrand', product.code_brand);
-        formData.append('status', product.status?'true':'false');
+        formData.append('status', product.status ? 'true' : 'false');
         product.images.forEach(image => {
             formData.append('fileImages', image);
         });

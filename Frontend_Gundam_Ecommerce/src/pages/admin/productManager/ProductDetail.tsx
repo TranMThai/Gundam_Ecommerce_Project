@@ -1,9 +1,9 @@
 import { Box, Button, Chip, Container, Grid, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import api from '../../../../constants/ApiUrl'
-import { callGetProductById, callUpdateStatus } from '../../../../services/ProductService'
-import Product from '../../../../types/Product'
+import api from '../../../constants/ApiUrl'
+import { callGetProductById, callUpdateStatus } from '../../../services/ProductService'
+import Product from '../../../types/Product'
 
 const ProductDetail: React.FC = () => {
 

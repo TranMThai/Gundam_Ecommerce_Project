@@ -1,10 +1,10 @@
 import { Box, Button, Container, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { callGetAllBrand } from '../../../../services/BrandService'
-import { callGetAllCategory } from '../../../../services/CategoryService'
-import { callAddProduct } from '../../../../services/ProductService'
-import Brand from '../../../../types/Brand'
-import Category from '../../../../types/Category'
+import { callGetAllBrand } from '../../../services/BrandService'
+import { callGetAllCategory } from '../../../services/CategoryService'
+import { callAddProduct } from '../../../services/ProductService'
+import Brand from '../../../types/Brand'
+import Category from '../../../types/Category'
 import { useNavigate } from 'react-router-dom'
 
 

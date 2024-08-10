@@ -6,7 +6,7 @@ import UserPayloadReducer, { userPayloadSelector } from '../redux/reducer/UserPa
 import { callLogin } from '../services/AuthService'
 import { getToken, saveToken } from '../services/TokenService'
 import Authentication from '../types/Authentication'
-import { ADMIN } from '../constants/Roles'
+import { ADMIN, USER } from '../constants/Roles'
 import { OAuthConfig } from '../config/config'
 
 const Login: React.FC = () => {
@@ -49,8 +49,13 @@ const Login: React.FC = () => {
   };
 
   useEffect(() => {
-    if (user?.scope === ADMIN) {
-      navigate("/admin/product")
+    switch (user?.scope) {
+      case ADMIN:
+        navigate("/admin/product")
+        break
+      case USER:
+        navigate("/")
+        break
     }
   }, [user])
 

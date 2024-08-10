@@ -1,9 +1,9 @@
 import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { callGetAllProduct } from '../../../../services/ProductService'
-import Product from '../../../../types/Product'
-import ProductTableRow from '../../../../components/ProductTableRow'
+import { callGetAllProduct } from '../../../services/ProductService'
+import Product from '../../../types/Product'
+import ProductTableRow from '../../../components/ProductTableRow'
 
 const ProductList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([])

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Outlet, Route, Routes } from 'react-router-dom'
-import ProductList from './list/ProductList'
-import ProductCreate from './create/ProductCreate'
-import ProductDetail from './detail/ProductDetail'
-import ProductUpdate from './update/ProductUpdate'
+import ProductList from './ProductList'
+import ProductDetail from './ProductDetail'
+import ProductCreate from './ProductCreate'
+import ProductUpdate from './ProductUpdate'
 
 const ProductManager: React.FC = () => {
 
