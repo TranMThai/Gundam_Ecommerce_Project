@@ -10,10 +10,14 @@ const ProductList: React.FC = () => {
 
     useEffect(() => {
         const fetch = async () => {
-            const res = await callGetAllProduct()
-            setProducts([
-                ...res
-            ])
+            try {
+                const res = await callGetAllProduct()
+                setProducts([
+                    ...res.result
+                ])
+            } catch (error) {
+                console.log("Lỗi " + error)
+            }
         }
         fetch()
     }, [])

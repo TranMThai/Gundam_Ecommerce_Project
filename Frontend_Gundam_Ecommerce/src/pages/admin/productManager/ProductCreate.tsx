@@ -6,6 +6,7 @@ import { callAddProduct } from '../../../services/ProductService'
 import Brand from '../../../types/Brand'
 import Category from '../../../types/Category'
 import { useNavigate } from 'react-router-dom'
+import { HttpStatusCode } from 'axios'
 
 
 export interface ProductRequest {
@@ -130,8 +131,13 @@ const ProductCreate: React.FC = () => {
         });
 
         try {
-            await callAddProduct(formData);
-            navigate('/admin/product')
+            const res = await callAddProduct(formData);
+            if (res.code === HttpStatusCode.Ok) {
+                navigate('/admin/product')
+            }
+            if (res.code === HttpStatusCode.BadRequest) {
+                console.log(res)
+            }
 
         } catch (error) {
             console.error('Error adding product:', error);

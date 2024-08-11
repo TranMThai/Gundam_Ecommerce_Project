@@ -93,23 +93,20 @@ public class AuthenticationService {
 
         OutboundUserResponse userInfo = outboundUserClient.exchangeToken("json", response.getAccessToken());
 
-        Optional<User> user = userRepository.findByEmailOrIdGoogleAccount(userInfo.getEmail(), userInfo.getId());
-
-        if (!user.isPresent()) {
-            user = Optional.of(userRepository.save(User.builder()
-                    .idGoogleAccount(userInfo.getId())
-                    .email(userInfo.getEmail())
-                    .firstName(userInfo.getGiven_name())
-                    .lastName(userInfo.getFamily_name())
-                    .urlAvatar(userInfo.getPicture())
-                    .role(Role.builder()
-                            .id(2)
-                            .build())
-                    .build()));
-        }
+        User user = userRepository.findByEmailOrIdGoogleAccount(userInfo.getEmail(), userInfo.getId())
+                .orElseGet(() -> userRepository.save(User.builder()
+                        .idGoogleAccount(userInfo.getId())
+                        .email(userInfo.getEmail())
+                        .firstName(userInfo.getGiven_name())
+                        .lastName(userInfo.getFamily_name())
+                        .urlAvatar(userInfo.getPicture())
+                        .role(Role.builder()
+                                .id(2)
+                                .build())
+                        .build()));
 
         return AuthenticationResponse.builder()
-                .token(generateToken(user.get()))
+                .token(generateToken(user))
                 .build();
     }
 

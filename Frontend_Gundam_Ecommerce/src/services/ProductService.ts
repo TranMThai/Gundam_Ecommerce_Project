@@ -7,7 +7,7 @@ export const callGetAllProduct = async () => {
         method: 'GET',
         url: `${api}/api/products`
     });
-    return data.result;
+    return data;
 };
 
 export const callGetProductById = async (id: number|string) => {
@@ -15,7 +15,7 @@ export const callGetProductById = async (id: number|string) => {
         method: 'GET',
         url: `${api}/api/products/${id}`
     });
-    return data.result;
+    return data;
 };
 
 export const callAddProduct = async (productData: FormData) => {
@@ -28,7 +28,7 @@ export const callAddProduct = async (productData: FormData) => {
             'Content-Type': 'multipart/form-data'
         }
     });
-    return data.result;
+    return data;
 };
 
 export const callUpdateProduct = async (productData: FormData) => {
@@ -41,7 +41,7 @@ export const callUpdateProduct = async (productData: FormData) => {
             'Content-Type': 'multipart/form-data'
         }
     });
-    return data.result;
+    return data;
 };
 
 export const callUpdateStatus = async (id: number|string) => {
@@ -49,5 +49,5 @@ export const callUpdateStatus = async (id: number|string) => {
         method: 'PUT',
         url: `${api}/api/products/update_status/${id}`,
     });
-    return data.result;
+    return data;
 };

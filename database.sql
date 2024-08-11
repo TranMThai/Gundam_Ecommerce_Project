@@ -39,8 +39,8 @@ CREATE TABLE Image (
 
 CREATE TABLE User (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password TEXT NOT NULL,
+    username VARCHAR(50) ,
+    password TEXT,
     first_name NVARCHAR(20),
     last_name NVARCHAR(20),
     id_google_account VARCHAR(255) NULL,

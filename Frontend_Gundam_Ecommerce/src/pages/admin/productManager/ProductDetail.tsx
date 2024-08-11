@@ -31,7 +31,7 @@ const ProductDetail: React.FC = () => {
     const fetchProduct = async () => {
         try {
             const res = await callGetProductById(Number(id))
-            setProduct({ ...res })
+            setProduct({ ...res.result })
         } catch (error) {
             console.error("Lỗi fetch get product by id")
         }
