@@ -40,7 +40,7 @@ public class ProductUpdateRequest {
     private String codeBrand;
 
     @NotEmpty(message = "Image may not be empty")
-    private List<MultipartFile> fileImages;
+    private List<MultipartFile> images;
 
     @NotNull(message = "Status may not be null")
     private Boolean status;

@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material'
+import { Box, Button, Container, FormControl, FormHelperText, ImageList, ImageListItem, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { callGetAllBrand } from '../../../services/BrandService'
 import { callGetAllCategory } from '../../../services/CategoryService'
@@ -34,6 +34,17 @@ const ProductCreate: React.FC = () => {
         code_brand: '',
         images: []
     })
+    const [err, setErr] = useState({
+        code: '',
+        name: '',
+        price: '',
+        quantity: '',
+        description: '',
+        code_category: '',
+        code_brand: '',
+        images: ''
+    })
+
     const [categories, setCategories] = useState<Category[]>([])
     const [brands, setBrand] = useState<Brand[]>([])
     const [previewImages, setPreviewImages] = useState<string[]>([])
@@ -99,6 +110,70 @@ const ProductCreate: React.FC = () => {
         ])
     }
 
+    const validateForm = (): boolean => {
+        let isValid = true;
+        const newErr = { ...err };
+
+        if (product.code.trim() === '' || product.code.length < 3) {
+            newErr.code = 'Code is required and must be at least 3 characters';
+            isValid = false;
+        } else {
+            newErr.code = '';
+        }
+
+        if (product.name.trim() === '' || product.name.length < 3) {
+            newErr.name = 'Name is required and must be at least 3 characters';
+            isValid = false;
+        } else {
+            newErr.name = '';
+        }
+
+        if (product.price <= 0) {
+            newErr.price = 'Price must be a positive number';
+            isValid = false;
+        } else {
+            newErr.price = '';
+        }
+
+        if (product.quantity <= 0) {
+            newErr.quantity = 'Quantity must be a positive number';
+            isValid = false;
+        } else {
+            newErr.quantity = '';
+        }
+
+        if (product.description.trim() === '') {
+            newErr.description = 'Description is require';
+            isValid = false;
+        } else {
+            newErr.description = '';
+        }
+
+        if (product.code_category.trim() === '') {
+            newErr.code_category = 'Category must be selected';
+            isValid = false;
+        } else {
+            newErr.code_category = '';
+        }
+
+        if (product.code_brand.trim() === '') {
+            newErr.code_brand = 'Brand must be selected';
+            isValid = false;
+        } else {
+            newErr.code_brand = '';
+        }
+
+        if (product.images.length === 0) {
+            newErr.images = 'At least one image must be uploaded';
+            isValid = false;
+        } else {
+            newErr.images = '';
+        }
+
+        setErr(newErr);
+        return isValid;
+    };
+
     useEffect(() => {
         return () => {
             previewImages.forEach(i => URL.revokeObjectURL(i))
@@ -118,6 +193,10 @@ const ProductCreate: React.FC = () => {
     }
 
     const handleAdd = async () => {
+        if (!validateForm()) {
+            return;
+        }
+
         const formData = new FormData();
         formData.append('code', product.code);
         formData.append('name', product.name);
@@ -127,22 +206,20 @@ const ProductCreate: React.FC = () => {
         formData.append('codeCategory', product.code_category);
         formData.append('codeBrand', product.code_brand);
         product.images.forEach(image => {
-            formData.append('fileImages', image);
+            formData.append('images', image);
         });
 
         try {
             const res = await callAddProduct(formData);
             if (res.code === HttpStatusCode.Ok) {
-                navigate('/admin/product')
-            }
-            if (res.code === HttpStatusCode.BadRequest) {
-                console.log(res)
+                navigate('/admin/product');
             }
 
         } catch (error) {
-            console.error('Error adding product:', error);
+            console.error(error);
         }
     };
+
 
     return (
         <Container
@@ -169,6 +246,8 @@ const ProductCreate: React.FC = () => {
                         value={product.code}
                         name='code'
                         onChange={handleChangeInput}
+                        helperText={err.code}
+                        error={err.code != ''}
                     />
                 </Box>
                 <Box>
@@ -178,6 +257,8 @@ const ProductCreate: React.FC = () => {
                         value={product.name}
                         name='name'
                         onChange={handleChangeInput}
+                        helperText={err.name}
+                        error={err.name != ''}
                     />
                 </Box>
                 <Box>
@@ -188,6 +269,8 @@ const ProductCreate: React.FC = () => {
                         value={product.price}
                         name='price'
                         onChange={handleChangeInput}
+                        helperText={err.price}
+                        error={err.price != ''}
                     />
                 </Box>
                 <Box>
@@ -198,6 +281,8 @@ const ProductCreate: React.FC = () => {
                         value={product.quantity}
                         name='quantity'
                         onChange={handleChangeInput}
+                        helperText={err.quantity}
+                        error={err.quantity != ''}
                     />
                 </Box>
                 <Box>
@@ -209,9 +294,14 @@ const ProductCreate: React.FC = () => {
                         value={product.description}
                         name='description'
                         onChange={handleChangeInput}
+                        helperText={err.description}
+                        error={err.description != ''}
                     />
                 </Box>
-                <FormControl fullWidth >
+                <FormControl
+                    fullWidth
+                    error={err.code_category != ''}
+                >
                     <InputLabel id='category'>Category</InputLabel>
                     <Select
                         labelId='category'
@@ -224,8 +314,11 @@ const ProductCreate: React.FC = () => {
                             <MenuItem key={c.code} value={c.code} >{c.code + ' - ' + c.name}</MenuItem>
                         )}
                     </Select>
+                    <FormHelperText>{err.code_category}</FormHelperText>
                 </FormControl>
-                <FormControl fullWidth >
+                <FormControl
+                    fullWidth
+                    error={err.code_brand != ''}>
                     <InputLabel id='brand'>Brand</InputLabel>
                     <Select
                         labelId='brand'
@@ -238,9 +331,15 @@ const ProductCreate: React.FC = () => {
                             <MenuItem key={b.code} value={b.code} >{b.code + ' - ' + b.name}</MenuItem>
                         )}
                     </Select>
+                    <FormHelperText>{err.code_brand}</FormHelperText>
                 </FormControl>
-                <div>
-                    <span className='me-3'>Images:</span>
+                <Box>
+                    <Typography
+                        mr={2}
+                        display='inline'
+                        color={err.images ? 'red' : ''}
+                    >
+                        Images:</Typography>
                     <Button
                         component="label"
                         role={undefined}
@@ -251,6 +350,8 @@ const ProductCreate: React.FC = () => {
                         Upload image
                         <input type="file" multiple onChange={handleImage} style={{ display: 'none' }} />
                     </Button>
+
+                    <FormHelperText error>{err.images}</FormHelperText>
 
                     <ImageList
                         cols={3}
@@ -292,7 +393,7 @@ const ProductCreate: React.FC = () => {
                             </ImageListItem>
                         ))}
                     </ImageList>
-                </div>
+                </Box>
                 <div className='d-flex justify-content-center'>
                     <Button
                         variant='contained'

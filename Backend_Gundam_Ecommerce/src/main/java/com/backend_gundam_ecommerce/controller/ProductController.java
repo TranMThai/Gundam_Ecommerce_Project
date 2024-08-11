@@ -1,5 +1,6 @@
 package com.backend_gundam_ecommerce.controller;
 
+import com.backend_gundam_ecommerce.config.exception.AppException;
 import com.backend_gundam_ecommerce.dto.request.ProductCreateRequest;
 import com.backend_gundam_ecommerce.dto.request.ProductUpdateRequest;
 import com.backend_gundam_ecommerce.dto.response.ApiResponse;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,15 +50,9 @@ public class ProductController {
     ApiResponse<?> create(
             @Valid @ModelAttribute ProductCreateRequest request,
             BindingResult result
-    ) {
+    ) throws MethodArgumentNotValidException {
         if (result.hasErrors()) {
-            var errors = result.getFieldErrors().stream()
-                    .map(ValidateFieldMapper::toDto)
-                    .toList();
-            return ApiResponse.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .result(errors)
-                    .build();
+            throw new MethodArgumentNotValidException(null, result);
         }
         return ApiResponse.builder()
                 .result(productService.create(request))

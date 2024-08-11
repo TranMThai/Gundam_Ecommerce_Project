@@ -1,5 +1,6 @@
 package com.backend_gundam_ecommerce.dto.request;
 
+import com.backend_gundam_ecommerce.config.exception.ErrorCode;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -12,30 +13,30 @@ import java.util.List;
 @Data
 public class ProductCreateRequest {
 
-    @NotBlank(message = "Code may not be blank")
+    @NotBlank(message = "INVALID_CODE")
     private String code;
 
-    @NotBlank(message = "Name may not be blank")
+    @NotBlank(message = "INVALID_NAME")
     private String name;
 
-    @Positive(message = "Price must be positive")
-    @NotNull(message = "Price may not be null")
+    @Positive(message = "INVALID_PRICE")
+    @NotNull(message = "INVALID_PRICE")
     private Double price;
 
-    @Positive(message = "Quantity must be positive")
-    @NotNull(message = "Quantity may not be null")
+    @Positive(message = "INVALID_QUANTITY")
+    @NotNull(message = "INVALID_QUANTITY")
     private Integer quantity;
 
-    @NotBlank(message = "Code may not be blank")
+    @NotBlank(message = "INVALID_DESCRIPTION")
     private String description;
 
-    @NotBlank(message = "Code category may not be blank")
+    @NotBlank(message = "INVALID_CATEGORY_CODE")
     private String codeCategory;
 
-    @NotBlank(message = "Code brand may not be blank")
+    @NotBlank(message = "INVALID_BRAND_CODE")
     private String codeBrand;
 
-    @NotEmpty(message = "Image may not be empty")
-    private List<MultipartFile> fileImages;
+    @NotEmpty(message = "INVALID_IMAGES")
+    private List<MultipartFile> images;
 
 }

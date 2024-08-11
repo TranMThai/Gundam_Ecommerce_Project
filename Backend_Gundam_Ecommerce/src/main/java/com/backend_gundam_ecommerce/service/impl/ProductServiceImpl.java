@@ -52,9 +52,9 @@ public class ProductServiceImpl implements ProductService {
         entity.setStatus(true);
         Product productSave = productRepository.save(entity);
 
-        List<Image> imageList = saveImage(request.getFileImages(), productSave.getId());
+        List<Image> imageList = saveImage(request.getImages(), productSave.getId());
 
-        productSave.setImages(request.getFileImages().stream()
+        productSave.setImages(request.getImages().stream()
                 .map(file -> Image.builder()
                         .url(file.getOriginalFilename())
                         .build())
@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
 
         imageService.deleteByProductId(productEntity.getId());
 
-        List<Image> imageList = saveImage(request.getFileImages(), request.getId());
+        List<Image> imageList = saveImage(request.getImages(), request.getId());
 
         entity.setImages(imageList);
         entity.setBillDetails(productEntity.getBillDetails());
