@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
-import AdminHeader from '../components/AdminHeader';
-import Sidebar from '../components/Sidebar';
-import { ADMIN } from '../constants/Roles';
-import { userPayloadSelector } from '../redux/reducer/UserPayloadReducer';
+import AdminHeader from './AdminHeader';
+import { userPayloadSelector } from '../../redux/reducer/UserPayloadReducer';
+import { ADMIN } from '../../constants/Roles';
+import Sidebar from './Sidebar';
 
 const AdminLayout: React.FC = () => {
   const navigate = useNavigate()

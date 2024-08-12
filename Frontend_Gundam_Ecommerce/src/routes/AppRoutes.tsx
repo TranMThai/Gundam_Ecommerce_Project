@@ -1,12 +1,12 @@
 import { Route, Routes } from 'react-router-dom'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
-import AdminLayout from '../layout/AdminLayout'
 import ProductManager from '../pages/admin/productManager'
 import CategoryManager from '../pages/admin/categoryManager'
 import BrandManager from '../pages/admin/brandManager'
 import Authenticate from '../components/Authenticate'
 import Home from '../pages/user/Home'
+import AdminLayout from '../layout/admin/AdminLayout'
 
 const AppRoutes = () => {
   return (

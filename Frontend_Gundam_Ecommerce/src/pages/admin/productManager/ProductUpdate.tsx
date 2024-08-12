@@ -6,8 +6,6 @@ import { callGetAllCategory } from '../../../services/CategoryService';
 import { callGetProductById, callUpdateProduct } from '../../../services/ProductService';
 import Brand from '../../../types/Brand';
 import Category from '../../../types/Category';
-import { HttpStatusCode } from 'axios';
-
 
 export interface ProductRequest {
     id: number,

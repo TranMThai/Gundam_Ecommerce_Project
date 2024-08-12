@@ -5,7 +5,7 @@ import { getToken } from "../../services/TokenService";
 
 const initState = (): JwtUserPayload | null => {
   try {
-    return jwtDecode<JwtUserPayload>(getToken()+"");
+    return jwtDecode<JwtUserPayload>(getToken() + "");
   } catch (error) {
     return null;
   }
@@ -15,9 +15,12 @@ const UserPayloadReducer = createSlice({
   initialState: initState(),
   name: "UserPayload",
   reducers: {
-    setUserPayload: (state, action) => {
+    setUserPayload: (_, action) => {
       return jwtDecode(action.payload);
     },
+    setUserNull: (state, _) => {
+      return state;
+    }
   },
 });
 
