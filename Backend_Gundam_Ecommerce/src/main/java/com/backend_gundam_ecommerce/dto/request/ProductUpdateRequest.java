@@ -13,36 +13,36 @@ import java.util.List;
 @Data
 public class ProductUpdateRequest {
 
-    @NotNull(message = "Id may not be null")
+    @NotNull(message = "INVALID_ID")
     private Integer id;
 
-    @NotBlank(message = "Code may not be blank")
+    @NotBlank(message = "INVALID_CODE")
     private String code;
 
-    @NotBlank(message = "Name may not be blank")
+    @NotBlank(message = "INVALID_NAME")
     private String name;
 
-    @Positive(message = "Price must be positive")
-    @NotNull(message = "Price may not be null")
+    @Positive(message = "INVALID_PRICE")
+    @NotNull(message = "INVALID_PRICE")
     private Double price;
 
-    @Positive(message = "Quantity must be positive")
-    @NotNull(message = "Quantity may not be null")
+    @Positive(message = "INVALID_QUANTITY")
+    @NotNull(message = "INVALID_QUANTITY")
     private Integer quantity;
 
-    @NotBlank(message = "Code may not be blank")
+    @NotBlank(message = "INVALID_DESCRIPTION")
     private String description;
 
-    @NotBlank(message = "Code category may not be blank")
+    @NotBlank(message = "INVALID_CATEGORY_CODE")
     private String codeCategory;
 
-    @NotBlank(message = "Code brand may not be blank")
+    @NotBlank(message = "INVALID_BRAND_CODE")
     private String codeBrand;
 
-    @NotEmpty(message = "Image may not be empty")
+    @NotEmpty(message = "INVALID_IMAGES")
     private List<MultipartFile> images;
 
-    @NotNull(message = "Status may not be null")
+    @NotNull(message = "INVALID_STATUS")
     private Boolean status;
 
 }

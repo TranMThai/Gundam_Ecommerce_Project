@@ -34,6 +34,7 @@ const ProductCreate: React.FC = () => {
         code_brand: '',
         images: []
     })
+    
     const [err, setErr] = useState({
         code: '',
         name: '',
@@ -220,7 +221,7 @@ const ProductCreate: React.FC = () => {
         }
     };
 
-
+    console.log("reload")
     return (
         <Container
             maxWidth='md'

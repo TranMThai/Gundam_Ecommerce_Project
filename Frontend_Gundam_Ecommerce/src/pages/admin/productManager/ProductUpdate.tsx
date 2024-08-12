@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, ImageList, ImageListItem, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, FormControl, FormHelperText, ImageList, ImageListItem, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { callGetAllBrand } from '../../../services/BrandService';
@@ -6,6 +6,7 @@ import { callGetAllCategory } from '../../../services/CategoryService';
 import { callGetProductById, callUpdateProduct } from '../../../services/ProductService';
 import Brand from '../../../types/Brand';
 import Category from '../../../types/Category';
+import { HttpStatusCode } from 'axios';
 
 
 export interface ProductRequest {
@@ -38,11 +39,21 @@ const ProductUpdate: React.FC = () => {
         images: [],
         status: false
     })
+
+    const [err, setErr] = useState({
+        code: '',
+        name: '',
+        price: '',
+        quantity: '',
+        description: '',
+        code_category: '',
+        code_brand: '',
+        images: ''
+    })
+
     const [categories, setCategories] = useState<Category[]>([])
     const [brands, setBrand] = useState<Brand[]>([])
     const [previewImages, setPreviewImages] = useState<string[]>([])
-
-
 
     useEffect(() => {
 
@@ -59,12 +70,18 @@ const ProductUpdate: React.FC = () => {
         getBrand()
 
         const getProduct = async () => {
-            const res = await callGetProductById(id + '');
-            setProduct({
-                ...res,
-                code_category: res.category.code,
-                code_brand: res.brand.code
-            })
+            try {
+
+                const { result } = await callGetProductById(id + '');
+                setProduct({
+                    ...result,
+                    code_category: result.category.code,
+                    code_brand: result.brand.code,
+                    images: []
+                })
+
+            } catch (error) {
+            }
         }
         getProduct()
 
@@ -142,7 +159,76 @@ const ProductUpdate: React.FC = () => {
         })
     }
 
+    const validateForm = (): boolean => {
+        let isValid = true;
+        const newErr = { ...err };
+
+        if (product.code.trim() === '' || product.code.length < 3) {
+            newErr.code = 'Code is required and must be at least 3 characters';
+            isValid = false;
+        } else {
+            newErr.code = '';
+        }
+
+        if (product.name.trim() === '' || product.name.length < 3) {
+            newErr.name = 'Name is required and must be at least 3 characters';
+            isValid = false;
+        } else {
+            newErr.name = '';
+        }
+
+        if (product.price <= 0) {
+            newErr.price = 'Price must be a positive number';
+            isValid = false;
+        } else {
+            newErr.price = '';
+        }
+
+        if (product.quantity <= 0) {
+            newErr.quantity = 'Quantity must be a positive number';
+            isValid = false;
+        } else {
+            newErr.quantity = '';
+        }
+
+        if (product.description.trim() === '') {
+            newErr.description = 'Description is require';
+            isValid = false;
+        } else {
+            newErr.description = '';
+        }
+
+        if (product.code_category.trim() === '') {
+            newErr.code_category = 'Category must be selected';
+            isValid = false;
+        } else {
+            newErr.code_category = '';
+        }
+
+        if (product.code_brand.trim() === '') {
+            newErr.code_brand = 'Brand must be selected';
+            isValid = false;
+        } else {
+            newErr.code_brand = '';
+        }
+
+        if (product.images.length === 0) {
+            newErr.images = 'At least one image must be uploaded';
+            isValid = false;
+        } else {
+            newErr.images = '';
+        }
+
+        setErr(newErr);
+        return isValid;
+    };
+
     const handleUpdate = async () => {
+
+        if (!validateForm()) {
+            return
+        }
+
         const formData = new FormData();
         formData.append('id', product.id.toString());
         formData.append('code', product.code);
@@ -154,7 +240,7 @@ const ProductUpdate: React.FC = () => {
         formData.append('codeBrand', product.code_brand);
         formData.append('status', product.status ? 'true' : 'false');
         product.images.forEach(image => {
-            formData.append('fileImages', image);
+            formData.append('images', image);
         });
 
         try {
@@ -191,6 +277,8 @@ const ProductUpdate: React.FC = () => {
                         value={product.code}
                         name='code'
                         onChange={handleChangeInput}
+                        helperText={err.code}
+                        error={err.code != ''}
                     />
                 </Box>
                 <Box>
@@ -200,6 +288,8 @@ const ProductUpdate: React.FC = () => {
                         value={product.name}
                         name='name'
                         onChange={handleChangeInput}
+                        helperText={err.name}
+                        error={err.name != ''}
                     />
                 </Box>
                 <Box>
@@ -210,6 +300,8 @@ const ProductUpdate: React.FC = () => {
                         value={product.price}
                         name='price'
                         onChange={handleChangeInput}
+                        helperText={err.price}
+                        error={err.price != ''}
                     />
                 </Box>
                 <Box>
@@ -220,6 +312,8 @@ const ProductUpdate: React.FC = () => {
                         value={product.quantity}
                         name='quantity'
                         onChange={handleChangeInput}
+                        helperText={err.quantity}
+                        error={err.quantity != ''}
                     />
                 </Box>
                 <Box>
@@ -231,9 +325,14 @@ const ProductUpdate: React.FC = () => {
                         value={product.description}
                         name='description'
                         onChange={handleChangeInput}
+                        helperText={err.description}
+                        error={err.description != ''}
                     />
                 </Box>
-                <FormControl fullWidth >
+                <FormControl
+                    fullWidth
+                    error={err.code_category != ''}
+                >
                     <InputLabel id='category'>Category</InputLabel>
                     <Select
                         labelId='category'
@@ -246,8 +345,12 @@ const ProductUpdate: React.FC = () => {
                             <MenuItem key={c.code} value={c.code} >{c.code + ' - ' + c.name}</MenuItem>
                         )}
                     </Select>
+                    <FormHelperText>{err.code_category}</FormHelperText>
                 </FormControl>
-                <FormControl fullWidth >
+                <FormControl
+                    fullWidth
+                    error={err.code_brand != ''}
+                >
                     <InputLabel id='brand'>Brand</InputLabel>
                     <Select
                         labelId='brand'
@@ -260,9 +363,15 @@ const ProductUpdate: React.FC = () => {
                             <MenuItem key={b.code} value={b.code} >{b.code + ' - ' + b.name}</MenuItem>
                         )}
                     </Select>
+                    <FormHelperText>{err.code_brand}</FormHelperText>
                 </FormControl>
                 <Box>
-                    <span className='me-3'>Images:</span>
+                    <Typography
+                        mr={2}
+                        display='inline'
+                        color={err.images ? 'red' : ''}
+                    >
+                        Images:</Typography>
                     <Button
                         component="label"
                         role={undefined}
@@ -273,6 +382,8 @@ const ProductUpdate: React.FC = () => {
                         Upload image
                         <input type="file" multiple onChange={handleImage} style={{ display: 'none' }} />
                     </Button>
+
+                    <FormHelperText error>{err.images}</FormHelperText>
 
                     <ImageList
                         cols={3}

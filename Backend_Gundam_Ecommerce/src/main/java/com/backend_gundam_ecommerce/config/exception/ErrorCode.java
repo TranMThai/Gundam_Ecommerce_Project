@@ -20,6 +20,7 @@ public enum ErrorCode {
     INVALID_CATEGORY_CODE(400,"invalid category code",HttpStatus.BAD_REQUEST),
     INVALID_BRAND_CODE(400,"invalid brand code",HttpStatus.BAD_REQUEST),
     INVALID_IMAGES(400,"invalid images",HttpStatus.BAD_REQUEST),
+    INVALID_STATUS(400,"invalid status",HttpStatus.BAD_REQUEST),
     USER_EXIST(400, "user existed", HttpStatus.BAD_REQUEST),
     UNAUTHENTICATED(400,"unauthenticated", HttpStatus.BAD_REQUEST),
     TOKEN_EXCEPTION(400,"token exception", HttpStatus.BAD_REQUEST),
