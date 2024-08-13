@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import AdminHeader from './AdminHeader';
 import { userPayloadSelector } from '../../redux/reducer/UserPayloadReducer';
 import { ADMIN } from '../../constants/Roles';
-import Sidebar from './Sidebar';
+import Sidebar from './AdminSidebar';
 
 const AdminLayout: React.FC = () => {
   const navigate = useNavigate()

@@ -7,6 +7,7 @@ import BrandManager from '../pages/admin/brandManager'
 import Authenticate from '../components/Authenticate'
 import Home from '../pages/user/Home'
 import AdminLayout from '../layout/admin/AdminLayout'
+import UserLayout from '../layout/user/UserLayout'
 
 const AppRoutes = () => {
   return (
@@ -17,7 +18,9 @@ const AppRoutes = () => {
       <Route path='/authenticate' element={<Authenticate />} />
 
       {/* user */}
-      <Route path='/' element={<Home/>} />
+      <Route element={<UserLayout />}>
+        <Route path='/' element={<Home />} />
+      </Route>
 
       {/* admin */}
       <Route element={<AdminLayout />}>
