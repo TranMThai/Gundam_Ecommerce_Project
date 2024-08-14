@@ -1,8 +1,11 @@
 import { AppBar, BottomNavigation, BottomNavigationAction, Box, Container, IconButton, Menu, MenuItem, Toolbar, useMediaQuery } from '@mui/material';
 import React, { useState } from 'react';
 import { numberCartStyle } from '../../styles/styles';
+import { Link, useNavigate } from 'react-router-dom';
+import { deleteToken } from '../../services/TokenService';
 
 const UserHeader: React.FC = () => {
+    const navigate = useNavigate()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [bottomNavValue, setBottomNavValue] = useState<number>(0);
     const isLargeSize = useMediaQuery('(min-width: 900px)');
@@ -14,6 +17,11 @@ const UserHeader: React.FC = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const logout = () => {
+        deleteToken()
+        navigate("/")
+    }
 
     return (
         <Box position='sticky' top={0} zIndex={1}>
@@ -75,6 +83,7 @@ const UserHeader: React.FC = () => {
                     <BottomNavigationAction
                         label="Home"
                         icon={<i className='fa-solid fa-house fs-2' />}
+                        onClick={() => navigate("/")}
                     />
                     <BottomNavigationAction
                         label="Cart"
@@ -94,6 +103,7 @@ const UserHeader: React.FC = () => {
                                 <Box component='span' sx={numberCartStyle}>5</Box>
                             </Box>
                         }
+                        onClick={() => navigate("/cart")}
                     />
                     <BottomNavigationAction
                         label="Account"
@@ -114,8 +124,8 @@ const UserHeader: React.FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
+                <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
             </Menu>
         </Box>
     )
