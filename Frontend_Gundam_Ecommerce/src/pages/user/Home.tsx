@@ -1,7 +1,8 @@
-import { Box } from '@mui/material'
+import { Box, Container, Grid } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Product from '../../types/Product'
 import { callGetAllProduct } from '../../services/ProductService'
+import ProductCard from '../../components/ProductCard'
 
 const Home: React.FC = () => {
 
@@ -16,9 +17,23 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <Box>
-
-    </Box>
+    <Container maxWidth='xl'>
+      <Grid container>
+        {products.map(product =>
+          <Grid
+            item
+            key={product.id}
+            lg={3}
+            md={4}
+            xs={6}
+          >
+            <ProductCard
+              product={product}
+            />
+          </Grid>
+        )}
+      </Grid>
+    </Container>
   )
 }
 

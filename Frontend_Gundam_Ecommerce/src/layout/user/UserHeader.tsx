@@ -1,33 +1,16 @@
-import { AppBar, BottomNavigation, BottomNavigationAction, Box, Container, IconButton, Menu, MenuItem, TextField, Toolbar, useMediaQuery } from '@mui/material';
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { AppBar, Box, Container, IconButton, TextField, Toolbar, useMediaQuery } from '@mui/material';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import UserPayloadReducer, { userPayloadSelector } from '../../redux/reducer/UserPayloadReducer';
-import { deleteToken } from '../../services/TokenService';
 import { numberCartStyle } from '../../styles/styles';
 
-const UserHeader: React.FC = () => {
+interface IProps {
+    handleMenu: (event: React.MouseEvent<HTMLElement>) => void
+}
+
+const UserHeader: React.FC<IProps> = ({handleMenu}) => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const user = useSelector(userPayloadSelector)
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [bottomNavValue, setBottomNavValue] = useState<number>(0);
     const isLargeSize = useMediaQuery('(min-width: 900px)');
     const isXsScreen = useMediaQuery('(max-width:550px)');
-
-    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleLogout = () => {
-        deleteToken()
-        dispatch(UserPayloadReducer.actions.setUserNull(null));
-        navigate('/')
-    };
 
     return (
         <Box position='sticky' top={0} zIndex={1}>
@@ -146,83 +129,6 @@ const UserHeader: React.FC = () => {
                     </Container>
                 </Toolbar>
             </AppBar>
-
-            {
-                !isLargeSize && (
-                    <BottomNavigation
-                        value={bottomNavValue}
-                        onChange={(_, newValue) => {
-                            setBottomNavValue(newValue);
-                        }}
-                        showLabels
-                        sx={{
-                            position: 'fixed',
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            zIndex: 1,
-                            boxShadow: '0px -2px 10px rgba(0, 0, 0, 0.1)'
-                        }}
-                    >
-                        <BottomNavigationAction
-                            label="Home"
-                            icon={<i className='fa-solid fa-house fs-2' />}
-                            onClick={() => navigate("/")}
-                        />
-                        <BottomNavigationAction
-                            label="Cart"
-                            icon={
-                                <Box position='relative'>
-                                    <i className='fa-solid fa-cart-shopping fs-2'
-                                        style={{
-                                            position: 'relative'
-                                        }}>
-                                        <Box
-                                            component='span'
-                                            sx={numberCartStyle}
-                                        >
-                                            5
-                                        </Box>
-                                    </i>
-                                    <Box component='span' sx={numberCartStyle}>5</Box>
-                                </Box>
-                            }
-                            onClick={() => navigate("/cart")}
-                        />
-                        <BottomNavigationAction
-                            label="Account"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            icon={<i className='fa-solid fa-user fs-2' />}
-                            onClick={handleMenu}
-                        />
-                    </BottomNavigation>
-                )
-            }
-            <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                keepMounted
-                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-            >
-                {
-                    user ?
-                        (
-                            <Box>
-                                <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
-                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                            </Box>
-                        )
-                        :
-                        (
-                            <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
-                        )
-                }
-            </Menu>
         </Box >
     )
 }
