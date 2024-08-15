@@ -1,15 +1,19 @@
 import { AppBar, BottomNavigation, BottomNavigationAction, Box, Container, IconButton, Menu, MenuItem, TextField, Toolbar, useMediaQuery } from '@mui/material';
 import React, { useState } from 'react';
-import { numberCartStyle } from '../../styles/styles';
-import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import UserPayloadReducer, { userPayloadSelector } from '../../redux/reducer/UserPayloadReducer';
 import { deleteToken } from '../../services/TokenService';
+import { numberCartStyle } from '../../styles/styles';
 
 const UserHeader: React.FC = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const user = useSelector(userPayloadSelector)
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [bottomNavValue, setBottomNavValue] = useState<number>(0);
     const isLargeSize = useMediaQuery('(min-width: 900px)');
-    const isXsScreen = useMediaQuery('(max-width:450px)');
+    const isXsScreen = useMediaQuery('(max-width:550px)');
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -19,10 +23,11 @@ const UserHeader: React.FC = () => {
         setAnchorEl(null);
     };
 
-    const logout = () => {
+    const handleLogout = () => {
         deleteToken()
-        navigate("/")
-    }
+        dispatch(UserPayloadReducer.actions.setUserNull(null));
+        navigate('/')
+    };
 
     return (
         <Box position='sticky' top={0} zIndex={1}>
@@ -204,8 +209,19 @@ const UserHeader: React.FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={logout}>Logout</MenuItem>
-                <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
+                {
+                    user ?
+                        (
+                            <Box>
+                                <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
+                                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                            </Box>
+                        )
+                        :
+                        (
+                            <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
+                        )
+                }
             </Menu>
         </Box >
     )

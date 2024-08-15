@@ -41,7 +41,7 @@ const Authenticate: React.FC = () => {
                 navigate("/admin/product")
                 break
             case USER:
-                navigate("/home")
+                navigate("/")
                 break
         }
     }, [user])

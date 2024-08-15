@@ -1,8 +1,8 @@
 import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar } from '@mui/material'
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import UserPayloadReducer from '../../redux/reducer/UserPayloadReducer'
+import UserPayloadReducer, { userPayloadSelector } from '../../redux/reducer/UserPayloadReducer'
 import { deleteToken } from '../../services/TokenService'
 
 interface IProps {
@@ -15,7 +15,7 @@ const AdminHeader: React.FC<IProps> = ({ handleCollapse, handleToggled, broken }
 
     const dispatch = useDispatch()
 
-    // const user = useSelector(userPayloadSelector)
+    const user = useSelector(userPayloadSelector)
 
     const navigate = useNavigate()
 
