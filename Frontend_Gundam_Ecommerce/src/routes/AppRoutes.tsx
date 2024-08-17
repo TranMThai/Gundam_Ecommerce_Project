@@ -8,6 +8,7 @@ import Authenticate from '../components/Authenticate'
 import Home from '../pages/user/Home'
 import AdminLayout from '../layout/admin/AdminLayout'
 import UserLayout from '../layout/user/UserLayout'
+import ProductDetail from '../pages/user/ProductDetail'
 
 const AppRoutes = () => {
   return (
@@ -20,6 +21,7 @@ const AppRoutes = () => {
       {/* user */}
       <Route element={<UserLayout />}>
         <Route path='/' element={<Home />} />
+        <Route path='/:code' element={<ProductDetail />} />
       </Route>
 
       {/* admin */}

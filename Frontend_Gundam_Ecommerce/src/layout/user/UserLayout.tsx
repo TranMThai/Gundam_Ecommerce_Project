@@ -1,4 +1,4 @@
-import { Box, Menu, MenuItem } from '@mui/material'
+import { Box, Menu, MenuItem, useMediaQuery } from '@mui/material'
 import React, { useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import UserHeader from './UserHeader'
@@ -12,6 +12,7 @@ const UserLayout: React.FC = () => {
     const navigate = useNavigate()
     const user = useSelector(userPayloadSelector)
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const isLargeSize = useMediaQuery('(min-width: 900px)');
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -30,10 +31,12 @@ const UserLayout: React.FC = () => {
     return (
         <Box>
             <UserHeader
+                isLargeSize={isLargeSize}
                 handleMenu={handleMenu}
             />
             <Outlet />
             <UserFooter
+                isLargeSize={isLargeSize}
                 handleMenu={handleMenu}
             />
             <Menu

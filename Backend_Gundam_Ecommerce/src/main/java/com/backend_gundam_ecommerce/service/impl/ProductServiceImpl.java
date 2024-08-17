@@ -45,6 +45,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductResponse findByCode(String code) {
+        return productRepository.findByCode(code)
+                .map(productMapper::toDto)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+    }
+
+    @Override
+    public ProductResponse seachByIdOrCode(Object search) {
+        return productRepository.findByIdOrCode(search.toString())
+                .map(productMapper::toDto)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+    }
+
+    @Override
     public ProductResponse create(ProductCreateRequest request) {
 
         Product entity = productMapper.toEntity(request);

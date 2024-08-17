@@ -1,16 +1,16 @@
-import { BottomNavigation, BottomNavigationAction, Box, useMediaQuery } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { numberCartStyle } from '../../styles/styles';
 
 interface IProps {
+    isLargeSize: boolean,
     handleMenu: (event: React.MouseEvent<HTMLElement>) => void
 }
 
-const UserFooter: React.FC<IProps> = ({ handleMenu }) => {
+const UserFooter: React.FC<IProps> = ({ isLargeSize, handleMenu }) => {
     const navigate = useNavigate()
     const [bottomNavValue, setBottomNavValue] = useState<number>(0);
-    const isLargeSize = useMediaQuery('(min-width: 900px)');
 
     return (
         <>

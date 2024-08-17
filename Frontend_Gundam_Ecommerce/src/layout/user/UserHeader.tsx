@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { numberCartStyle } from '../../styles/styles';
 
 interface IProps {
+    isLargeSize: boolean,
     handleMenu: (event: React.MouseEvent<HTMLElement>) => void
 }
 
-const UserHeader: React.FC<IProps> = ({handleMenu}) => {
+const UserHeader: React.FC<IProps> = ({isLargeSize, handleMenu}) => {
     const navigate = useNavigate()
-    const isLargeSize = useMediaQuery('(min-width: 900px)');
     const isXsScreen = useMediaQuery('(max-width:550px)');
 
     return (

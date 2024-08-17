@@ -12,6 +12,10 @@ public interface ProductService {
 
     ProductResponse findById(Integer id);
 
+    ProductResponse findByCode(String code);
+
+    ProductResponse seachByIdOrCode(Object search);
+
     ProductResponse create(ProductCreateRequest dto);
 
     ProductResponse update(ProductUpdateRequest dto);
@@ -19,5 +23,4 @@ public interface ProductService {
     ProductResponse updateStatus(Integer id);
 
     void deleteById(Integer id);
-
 }

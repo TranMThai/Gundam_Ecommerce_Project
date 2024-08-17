@@ -4,6 +4,7 @@ import com.backend_gundam_ecommerce.config.exception.AppException;
 import com.backend_gundam_ecommerce.dto.request.ProductCreateRequest;
 import com.backend_gundam_ecommerce.dto.request.ProductUpdateRequest;
 import com.backend_gundam_ecommerce.dto.response.ApiResponse;
+import com.backend_gundam_ecommerce.dto.response.ProductResponse;
 import com.backend_gundam_ecommerce.mapper.ValidateFieldMapper;
 import com.backend_gundam_ecommerce.service.ProductService;
 import jakarta.validation.Valid;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/products")
@@ -39,10 +42,10 @@ public class ProductController {
                 .build();
     }
 
-    @GetMapping("/{id}")
-    ApiResponse<?> findById(@PathVariable(name = "id", required = true) Integer id) {
+    @GetMapping("/{search}")
+    ApiResponse<?> findByIdOrCode(@PathVariable(name = "search", required = true) String search) {
         return ApiResponse.builder()
-                .result(productService.findById(id))
+                .result(productService.seachByIdOrCode(search))
                 .build();
     }
 

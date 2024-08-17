@@ -18,6 +18,14 @@ export const callGetProductById = async (id: number|string) => {
     return data;
 };
 
+export const callGetProductByCode = async (code: string) => {
+    const { data } = await axios({
+        method: 'GET',
+        url: `${api}/api/products/${code}`
+    });
+    return data;
+};
+
 export const callAddProduct = async (productData: FormData) => {
     const { data } = await axios({
         method: 'POST',

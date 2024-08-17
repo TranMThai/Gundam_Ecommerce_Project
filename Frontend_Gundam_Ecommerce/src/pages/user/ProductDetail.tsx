@@ -1,13 +1,13 @@
-import { Box, Button, Chip, Container, Grid, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import ImageCarousel from '../../../components/ImageCarousel'
-import { callGetProductById, callUpdateStatus } from '../../../services/ProductService'
-import Product from '../../../types/Product'
+import { Box, Button, Chip, Container, Grid, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import ImageCarousel from '../../components/ImageCarousel';
+import { callGetProductByCode } from '../../services/ProductService';
+import Product from '../../types/Product';
 
 const ProductDetail: React.FC = () => {
 
-    const { id } = useParams()
+    const { code } = useParams()
     const [product, setProduct] = useState<Product>({
         id: 0,
         code: '',
@@ -27,29 +27,29 @@ const ProductDetail: React.FC = () => {
         images: []
     })
 
-    const fetchProduct = async () => {
-        try {
-            const res = await callGetProductById(Number(id))
-            setProduct({ ...res.result })
-        } catch (error) {
-            console.error("Lỗi fetch get product by id")
-        }
-    }
-
     useEffect(() => {
+
+        const fetchProduct = async () => {
+            try {
+                const res = await callGetProductByCode(code + "")
+                setProduct({ ...res.result })
+            } catch (error) {
+                console.error("Lỗi fetch get product by id")
+            }
+        }
+
         fetchProduct()
     }, [])
 
-    const handleUpdateStatus = () => {
-        const updateStatus = async () => {
-            await callUpdateStatus(product.id)
-            await fetchProduct()
-        }
-        updateStatus()
-    }
-
     return (
-        <Container>
+        <Container
+            sx={{
+                marginTop: {
+                    xs: 2,
+                    sm: 5
+                }
+            }}
+        >
             <Grid container>
                 <Grid item md={6} xs={12}>
                     <ImageCarousel
@@ -91,11 +91,11 @@ const ProductDetail: React.FC = () => {
                                 }}
                             />
                         </Grid>
-                        <Typography variant='h6'
+                        <Typography variant='h5'
                             style={{ fontWeight: 500 }}
                         >{product.code}</Typography>
 
-                        <Typography variant='h5'
+                        <Typography variant='h4'
                             style={{ fontWeight: 500 }}
                         >{product.name}</Typography>
 
@@ -116,39 +116,34 @@ const ProductDetail: React.FC = () => {
                         >
                             Category: {product.category.code} - {product.category.name}
                         </Typography>
-
+                        số lượng
                         <Grid container justifyContent={'space-between'} rowGap={2}>
-                            <Grid item lg={5.5} xs={12}>
-                                <Link to={`/admin/product/update/${product.id}`}>
-                                    <Button
-                                        variant='contained'
-                                        fullWidth
-                                        sx={{
-                                            textTransform: 'none',
-                                            display: 'table-cell',
-                                            height: '3em'
-                                        }}
-                                    >
-                                        <i className="fa-solid fa-pen me-2" />
-                                        Edit
-                                    </Button>
-                                </Link>
-                            </Grid>
                             <Grid item lg={5.5} xs={12}>
                                 <Button
                                     variant='contained'
                                     fullWidth
-                                    color={product.status ? 'error' : 'success'}
                                     sx={{
                                         textTransform: 'none',
                                         display: 'table-cell',
                                         height: '3em'
                                     }}
-                                    onClick={handleUpdateStatus}
                                 >
-                                    {product.status ? <i className="fa-solid fa-xmark me-2" /> : <i className="fa-solid fa-check me-2" />}
-
-                                    {product.status ? 'Stop selling' : 'Start selling'}
+                                    <i className="fa-solid fa-cart-shopping me-2" />
+                                    Add to card
+                                </Button>
+                            </Grid>
+                            <Grid item lg={5.5} xs={12}>
+                                <Button
+                                    variant='contained'
+                                    fullWidth
+                                    color='success'
+                                    sx={{
+                                        textTransform: 'none',
+                                        display: 'table-cell',
+                                        height: '3em'
+                                    }}
+                                >
+                                    Buy now
                                 </Button>
                             </Grid>
                         </Grid>
@@ -156,7 +151,7 @@ const ProductDetail: React.FC = () => {
                 </Grid>
             </Grid >
         </Container >
-    )
-}
+    );
+};
 
-export default ProductDetail
+export default ProductDetail;
